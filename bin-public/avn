@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+var program = require('commander');
+var fs = require('fs');
+var avn = require('..');
+
+program
+  .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version)
+  .command('setup')
+  .description('setup avn')
+  .action(avn.setup);
+
+program.parse(process.argv);

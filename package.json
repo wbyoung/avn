@@ -1,0 +1,40 @@
+{
+  "name": "avn",
+  "version": "0.1.0",
+  "description": "Automatic Node Version Switching",
+  "homepage": "https://github.com/wbyoung/avn",
+  "bugs": {
+    "url": "https://github.com/wbyoung/avn/issues"
+  },
+  "main": "index.js",
+  "bin": {
+    "avn": "./bin-public/avn"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report $(if [ \"$TRAVIS\" ]; then echo lcovonly; else echo html; fi) -- && if [ \"$TRAVIS\" ]; then cat ./coverage/lcov.info | ./node_modules/.bin/coveralls; fi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wbyoung/avn.git"
+  },
+  "keywords": [
+    "nvm",
+    "n",
+    "node",
+    "version",
+    "switch",
+    "automatic",
+    "cd",
+    "change",
+    "directory"
+  ],
+  "author": "Whitney Young",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "~0.4.0",
+    "commander": "~2.2.0",
+    "lodash": "~2.4.1",
+    "npm": "~1.4.9",
+    "q": "~1.0.1"
+  }
+}

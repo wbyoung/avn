@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+
+var program = require('commander');
+var fs = require('fs');
+var path = require('path');
+var avn = require('..');
+
+var hook = function(fn) {
+  return function() {
+    // set up stdcmd stream
+    try { process.stdcmd = fs.createWriteStream(null, { fd: 3 }); }
+    catch (e) { process.stdcmd = process.stderr; }
+
+    // setup colors based on program options
+    require('chalk').enabled = program.color;
+    fn.apply(this, arguments);
+  };
+};
+
+program
+  .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version)
+  .option('-v --verbose', 'run verbosely')
+  .option('-c --color', 'use colors (automatic for some commands)');
+
+program
+  .command('before-cd <path> [cd-arg]')
+  .description('eval actions for before cd')
+  .action(hook(function(dir) {
+    avn.hooks.before(path.resolve(dir),
+      { verbose: program.verbose });
+  }));
+
+program
+  .command('after-cd <path> [cd-arg]')
+  .description('eval actions for after cd')
+  .action(hook(function(dir) {
+    avn.hooks.after(path.resolve(dir),
+      { verbose: program.verbose });
+  }));
+
+program
+  .command('explain <path>')
+  .description('show what will happen for a given path')
+  .action(function(dir) {
+    process.stdcmd = process.stderr;
+    avn.hooks.before(path.resolve(dir),
+      { verbose: program.verbose });
+    avn.hooks.after(path.resolve(dir),
+      { verbose: program.verbose });
+  });
+
+program.parse(process.argv);
