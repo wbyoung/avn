@@ -64,7 +64,7 @@ describe('avn', function() {
         });
       });
 
-      it('fails if plugin does returns undefined', function(done) {
+      it('fails if plugin returns undefined', function(done) {
         var std = capture();
         plugin = { name: 'test', match: sinon.spy(function() {}) };
         avn.hooks.after(example('v0.10.26')).done(function() {
