@@ -27,9 +27,12 @@ free to install both plugins. They won't conflict with each other.
 
 ## Todo List
 
- * There's no test coverage yet.
- * Currently `avn` doesn't switch back to the previous version of `node` that
-   you were using when you leave a directory. Pull requests are welcome!
+ * Add test coverage.
+ * Improve compatibility with `rvm` and other tools that override `cd`.
+ * Support switching back to the previous version of `node` that you were using
+   when you leave a directory.
+
+Pull requests are welcome!
 
 
 ## Troubleshooting
