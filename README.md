@@ -25,10 +25,11 @@ We don't recommend using both tools to manage your versions of `node`, but feel
 free to install both plugins. They won't conflict with each other.
 
 
-## Unsupported Functionality
+## Todo List
 
-Currently `avn` doesn't switch back to the previous version of `node` that you
-were using when you leave a directory. Pull requests are welcome!
+ * There's no test coverage yet.
+ * Currently `avn` doesn't switch back to the previous version of `node` that
+   you were using when you leave a directory. Pull requests are welcome!
 
 
 ## Troubleshooting
