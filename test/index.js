@@ -1,3 +1,5 @@
-describe('avn', function() {
+var avn = require('..');
 
+describe('avn', function() {
+  it('will have tests');
 });
