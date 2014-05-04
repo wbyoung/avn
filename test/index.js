@@ -1,3 +1,6 @@
+/* jshint expr: true */
+/* global before, beforeEach, after */
+
 var avn = require('..');
 var path = require('path');
 var chalk = require('chalk');
