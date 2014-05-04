@@ -2,12 +2,12 @@
 
 [![NPM version][npm-image]][npm-url] [![Build status][travis-image]][travis-url] [![Code Climate][codeclimate-image]][codeclimate-url] [![Coverage Status][coverage-image]][coverage-url] [![Dependencies][david-image]][david-url]
 
-Automatic Version Switching for Node
+Automatic Version Switching for Node.js
 
 ## Install
 
 ``` bash
-npm install avn avn-n avn-nvm
+npm install -g avn avn-nvm avn-n
 avn setup
 ```
 
@@ -21,7 +21,7 @@ switch to that version of node.
 `avn` supports both [`nvm`][nvm] and [`n`][n] through [`avn-nvm`][avn-nvm] and
 [`avn-n`][avn-n].
 
-We don't recommend using both tools to manage your versions of `node`, but feel
+We don't recommend using both tools to manage your versions of node, but feel
 free to install both plugins. They won't conflict with each other.
 
 
@@ -29,7 +29,7 @@ free to install both plugins. They won't conflict with each other.
 
  * Add test coverage.
  * Improve compatibility with `rvm` and other tools that override `cd`.
- * Support switching back to the previous version of `node` that you were using
+ * Support switching back to the previous version of node that you were using
    when you leave a directory.
 
 Pull requests are welcome!
@@ -38,12 +38,19 @@ Pull requests are welcome!
 ## Troubleshooting
 
 If you're having a problem, please `cd` to the directory where your
-`.node-version` file is stored and run `_avn explain -v .`, then create an
-[issue][issues] and include the output.
+`.node-version` file is stored and run (note the underscore prefix):
 
-You shouldn't run into problems with this, but the `avn` command will only be
-available when you're using the node version you originally installed it with.
-Everything should continue to work fine, though.
+```bash
+_avn explain -v .
+```
+
+Create an [issue][issues] and include the output.
+
+Also note that the `avn setup` command will only work with the version of node
+with which you installed it. If you install and then switch your node version,
+you'll get an error that `avn` can't be found. This is okay, but if you need to
+run the setup command again, simply `npm install -g avn` to get a new copy for
+your current node version.
 
 
 ## License
@@ -63,7 +70,7 @@ This project is distributed under the MIT license.
 [david-url]: https://david-dm.org/wbyoung/avn
 
 [issues]: https://github.com/wbyoung/avn/issues
-[n]: https://github.com/visionmedia/n
 [nvm]: https://github.com/creationix/nvm
+[n]: https://github.com/visionmedia/n
 [avn-nvm]: https://github.com/wbyoung/avn-nvm
 [avn-n]: https://github.com/wbyoung/avn-n
