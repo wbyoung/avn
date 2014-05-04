@@ -27,7 +27,7 @@ program
   .description('eval actions for before cd')
   .action(hook(function(dir) {
     avn.hooks.before(path.resolve(dir),
-      { verbose: program.verbose });
+      { verbose: program.verbose }).done();
   }));
 
 program
@@ -35,7 +35,7 @@ program
   .description('eval actions for after cd')
   .action(hook(function(dir) {
     avn.hooks.after(path.resolve(dir),
-      { verbose: program.verbose });
+      { verbose: program.verbose }).done();
   }));
 
 program
@@ -44,9 +44,9 @@ program
   .action(function(dir) {
     process.stdcmd = process.stderr;
     avn.hooks.before(path.resolve(dir),
-      { verbose: program.verbose });
+      { verbose: program.verbose }).done();
     avn.hooks.after(path.resolve(dir),
-      { verbose: program.verbose });
+      { verbose: program.verbose }).done();
   });
 
 program.parse(process.argv);

@@ -41,6 +41,9 @@
     "mocha": "~1.18.2",
     "chai": "~1.9.1",
     "should": "~3.3.1",
+    "sinon": "~1.9.1",
+    "sinon-chai": "~2.5.0",
+    "concat-stream": "~1.4.5",
     "istanbul": "~0.2.8",
     "coveralls": "~2.10.0"
   }
