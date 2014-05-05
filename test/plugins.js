@@ -6,7 +6,6 @@ var path = require('path');
 var plugins = require('../lib/plugins');
 var _ = require('lodash');
 
-var sinon = require('sinon');
 var chai = require('chai');
 var expect = chai.expect;
 chai.use(require('sinon-chai'));
