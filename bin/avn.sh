@@ -1,7 +1,6 @@
 function __avn_eval() {
   typeset cmd actions actions_result options
 
-  echo "eval with $@"
   cmd=$1
   shift
 
@@ -16,12 +15,10 @@ function __avn_eval() {
 }
 
 function __avn_before() {
-  echo "before checking $1/.node-version"
   [[ -f "$1/.node-version" ]] && __avn_eval before-cd "$@"
 }
 
 function __avn_after() {
-  echo "after checking $1/.node-version"
   [[ -f "$1/.node-version" ]] && __avn_eval after-cd "$@"
 }
 
