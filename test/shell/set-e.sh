@@ -7,7 +7,9 @@ typeset __tmp=`mktemp /tmp/avn-test.XXXXXX`
 typeset __written=""
 
 set -e
-cd "${__testdir}/examples/home" # start in a known location
+
+# start in a known location
+cd "${__testdir}/examples/home"
 
 # even with `set -e`, if `_avn` exits with a status of 1, the `cd` should still
 # work, and both the before and after hooks should be invoked.
