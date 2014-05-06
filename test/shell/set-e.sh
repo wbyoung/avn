@@ -1,7 +1,8 @@
 #!/bin/bash
 
 typeset __abspath=$(cd ${0%/*} && echo $PWD/${0##*/})
-typeset __dirname=`dirname "${__abspath}"`
+typeset __shelldir=`dirname "${__abspath}"`
+typeset __testdir=`dirname "${__shelldir}"`
 typeset __tmp=`mktemp /tmp/avn-test.XXXXXX`
 typeset __calls=""
 
@@ -14,12 +15,12 @@ function _avn() {
   exit 1
 }
 
-source "${__dirname}/helpers.sh"
-source "${__dirname}/../bin/avn.sh"
-cd "${__dirname}/examples/v0.11"
+source "${__shelldir}/helpers.sh"
+source "${__testdir}/../bin/avn.sh"
+cd "${__testdir}/examples/v0.11"
 __calls=`echo $(cat ${__tmp})`
 
-assertEqual `pwd` "${__dirname}/examples/v0.11"
+assertEqual `pwd` "${__testdir}/examples/v0.11"
 assertEqual "before-cd after-cd" "${__calls}" || exit 1
 
 rm ${__tmp}

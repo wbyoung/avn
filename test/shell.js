@@ -37,10 +37,11 @@ var runScript = function(script) {
 };
 
 describe('avn shell integration', function() {
-  fs.readdirSync(__dirname).forEach(function(file) {
+  var shell = path.join(__dirname, 'shell');
+  fs.readdirSync(shell).forEach(function(file) {
     if (file.match(/\.sh$/)) {
       it('`' + file + '`', function(done) {
-        runScript(path.join(__dirname, file))
+        runScript(path.join(shell, file))
         .then(function() { })
         .fail(function(result) {
           var stdout = result.stdout.trim();
