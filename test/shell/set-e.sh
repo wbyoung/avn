@@ -11,6 +11,7 @@ set -e
 # even with `set -e`, if `_avn` exits with a status of 1, the `cd` should still
 # work, and both the before and after hooks should be invoked.
 function _avn() {
+  echo "avn called with $@"
   echo "$1" >> ${__tmp}
   exit 1
 }
