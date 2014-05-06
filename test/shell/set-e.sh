@@ -20,6 +20,9 @@ source "${__testdir}/../bin/avn.sh"
 cd "${__testdir}/examples/v0.11"
 __calls=`echo $(cat ${__tmp})`
 
+cat "${__tmp}"
+exit 1
+
 assertEqual `pwd` "${__testdir}/examples/v0.11"
 assertEqual "before-cd after-cd" "${__calls}" || exit 1
 
