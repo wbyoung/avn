@@ -172,7 +172,7 @@ describe('avn', function() {
         avn.hooks.after(example('v0.10.26'))
         .fail(function(e) {
           std.restore();
-          expect(e.message).to.eql('Cannot call method \'write\' of undefined');
+          expect(e.message).to.match(/^cannot (call|read) (method|property) \'write\' of undefined$/i);
           done();
         })
         .done();
