@@ -16,23 +16,11 @@ chai.use(require('sinon-chai'));
 
 var runScript = function(script) {
   var deferred = q.defer();
-  var stdout, stderr;
-  var cmd = child_process.spawn(script);
-
-  cmd.stdout.pipe(concat({ encoding: 'string' }, function(data) {
-    stdout = data;
-  }));
-
-  cmd.stderr.pipe(concat({ encoding: 'string' }, function(data) {
-    stderr = data;
-  }));
-
+  var cmd = child_process.spawn(script, { stdio: 'inherit' });
   cmd.on('close', function (code) {
-    var result = { stdout: stdout, stderr: stderr, status: code };
-    if (code === 0) { deferred.resolve(result); }
-    else { deferred.reject(result); }
+    if (code === 0) { deferred.resolve(code); }
+    else { deferred.reject(code); }
   });
-
   return deferred.promise;
 };
 
@@ -44,11 +32,7 @@ describe('avn shell integration', function() {
         runScript(path.join(shell, file))
         .then(function() { })
         .fail(function(result) {
-          var stdout = result.stdout.trim();
-          var stderr = result.stderr.trim();
-          throw new Error(util.format('%s exited with status: %d\n      ' +
-            'stdout: %s\n      ' +
-            'stderr: %s', file, result.status, stdout, stderr));
+          throw new Error(util.format('%s exited with status: %d', file, result));
         })
         .done(done);
       });
