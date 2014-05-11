@@ -17,7 +17,7 @@ chai.use(require('sinon-chai'));
 var runScript = function(script) {
   var deferred = q.defer();
   var cmd = child_process.spawn(script, { stdio: 'inherit' });
-  cmd.on('close', function (code) {
+  cmd.on('close', function(code) {
     if (code === 0) { deferred.resolve(code); }
     else { deferred.reject(code); }
   });
