@@ -10,8 +10,6 @@ var chai = require('chai');
 var expect = chai.expect;
 chai.use(require('sinon-chai'));
 
-var capture = require('./helpers').capture;
-
 describe('avn plugins', function() {
   var home = process.env.HOME;
   var nodePath = process.env.NODE_PATH;
