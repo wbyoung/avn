@@ -63,8 +63,7 @@ describe('avn setup', function() {
   it('creates .bash_profile', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_empty')
-    .then(function() { return setup._updateProfile(); }).done(function() {
-      std.restore();
+    .then(function() { return setup._updateProfile(); }).fin(std.restore).done(function() {
       expect(fs.existsSync(path.join(temporaryHome, '.bash_profile'))).to.be.true;
       expect(std.out).to.eql(
         'avn: profile setup complete (~/.bash_profile)\n' +
@@ -78,8 +77,8 @@ describe('avn setup', function() {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_with_bash_profile')
     .then(function() { return setup._updateProfile(); })
+    .fin(std.restore)
     .done(function() {
-      std.restore();
       var file = path.join(temporaryHome, '.bash_profile');
       var contents = fs.readFileSync(file, 'utf8');
       expect(contents).to.contain('avn');
@@ -96,8 +95,8 @@ describe('avn setup', function() {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_with_avn_bash_profile')
     .then(function() { return setup._updateProfile(); })
+    .fin(std.restore)
     .done(function() {
-      std.restore();
       var file = path.join(temporaryHome, '.bash_profile');
       var contents = fs.readFileSync(file, 'utf8');
       expect(contents).to.contain('avn');
@@ -114,20 +113,18 @@ describe('avn setup', function() {
     fillTemporaryHome(temporaryHome, 'home_with_protected_bash_profile')
     .then(function() { return setup._updateProfile(); })
     .catch(function(e) {
-      std.restore();
       expect(std.out).to.eql('');
       expect(std.err).to.eql('');
       expect(e.code).to.eql('EACCES');
-      done();
     })
-    .done();
+    .fin(std.restore)
+    .done(function() { done(); });
   });
 
   it.skip('installs to ~/.avn', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_empty')
-    .then(function() { return setup._install(); }).done(function() {
-      std.restore();
+    .then(function() { return setup._install(); }).fin(std.restore).done(function() {
       // make assertions
       done();
     });
@@ -136,8 +133,7 @@ describe('avn setup', function() {
   it.skip('updates ~/.avn install', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_avn_outdated')
-    .then(function() { return setup._install(); }).done(function() {
-      std.restore();
+    .then(function() { return setup._install(); }).fin(std.restore).done(function() {
       // make assertions
       done();
     });
@@ -146,8 +142,7 @@ describe('avn setup', function() {
   it.skip('updates ~/.avn install', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_avn_futuristic')
-    .then(function() { return setup._install(); }).done(function() {
-      std.restore();
+    .then(function() { return setup._install(); }).fin(std.restore).done(function() {
       // make assertions
       done();
     });
@@ -156,8 +151,7 @@ describe('avn setup', function() {
   it.skip('creates ~/.avnrc', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_empty')
-    .then(function() { return setup._updateConfigurationFile(); }).done(function() {
-      std.restore();
+    .then(function() { return setup._updateConfigurationFile(); }).fin(std.restore).done(function() {
       // make assertions
       done();
     });
@@ -166,8 +160,7 @@ describe('avn setup', function() {
   it.skip('updates ~/.avnrc', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_avnrc_missing_plugins')
-    .then(function() { return setup._updateConfigurationFile(); }).done(function() {
-      std.restore();
+    .then(function() { return setup._updateConfigurationFile(); }).fin(std.restore).done(function() {
       // make assertions
       done();
     });
@@ -176,8 +169,7 @@ describe('avn setup', function() {
   it.skip('leaves ~/.avnrc untouched', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_avnrc_plugins_current')
-    .then(function() { return setup._updateConfigurationFile(); }).done(function() {
-      std.restore();
+    .then(function() { return setup._updateConfigurationFile(); }).fin(std.restore).done(function() {
       // make assertions
       done();
     });
@@ -186,8 +178,7 @@ describe('avn setup', function() {
   it.skip('runs all actions together', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_empty')
-    .then(function() { return setup(); }).done(function() {
-      std.restore();
+    .then(function() { return setup(); }).fin(std.restore).done(function() {
       // make assertions
       done();
     });
