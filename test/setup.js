@@ -124,7 +124,7 @@ describe('avn setup', function() {
 
   it('installs to ~/.avn', function(done) {
     var spawn = child_process.spawn;
-    var stubFunction = function() { return spawn('cd', ['.']); };
+    var stubFunction = function() { return spawn('/bin/cat', ['/dev/null']); };
     var stub;
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_empty')
