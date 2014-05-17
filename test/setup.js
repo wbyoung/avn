@@ -14,6 +14,7 @@ var fsq = {
   mkdir: q.denodeify(fs.mkdir)
 };
 
+var sinon = require('sinon');
 var chai = require('chai');
 var expect = chai.expect;
 chai.use(require('sinon-chai'));
@@ -121,11 +122,26 @@ describe('avn setup', function() {
     .done(function() { done(); });
   });
 
-  it.skip('installs to ~/.avn', function(done) {
+  it('installs to ~/.avn', function(done) {
+    var spawn = child_process.spawn;
+    var stubFunction = function() { return spawn('cd', ['.']); };
+    var stub;
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_empty')
-    .then(function() { return setup._install(); }).fin(std.restore).done(function() {
-      // make assertions
+    .then(function() { stub = sinon.stub(child_process, 'spawn', stubFunction); })
+    .then(function() { return setup._install(); })
+    .fin(function() {
+      try { stub.restore(); }
+      catch(e) {}
+    })
+    .fin(std.restore)
+    .done(function() {
+      var src = path.resolve(path.join(__dirname, '..'));
+      var dst = path.join(process.env.HOME, '.avn');
+      expect(stub).to.have.been.calledOnce;
+      expect(stub).to.have.been.calledWith('/bin/cp', ['-RL', src, dst]);
+      expect(std.out).to.eql('avn: installation complete\n');
+      expect(std.err).to.eql('');
       done();
     });
   });
