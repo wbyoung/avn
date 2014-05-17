@@ -19,11 +19,19 @@ var chai = require('chai');
 var expect = chai.expect;
 chai.use(require('sinon-chai'));
 
+var spawn = child_process.spawn;
+var stubFunction = function() { return spawn('/bin/cat', ['/dev/null']); };
+var stubSpawn = function() {
+  return sinon.stub(child_process, 'spawn', function() {
+    return spawn('/bin/cat', ['/dev/null']);
+  });
+};
+
 var capture = require('./helpers').capture;
 var fillTemporaryHome = function(temporaryHome, source) {
   var deferred = q.defer();
   var fullSource = path.resolve(path.join(__dirname, 'examples', source)) + '/.';
-  var cmd = child_process.spawn('/bin/cp', ['-RL', fullSource, temporaryHome]);
+  var cmd = spawn('/bin/cp', ['-RL', fullSource, temporaryHome]);
   cmd.stdout.pipe(process.stdout);
   cmd.stderr.pipe(process.stderr);
   cmd.on('close', function(code) {
@@ -123,23 +131,20 @@ describe('avn setup', function() {
   });
 
   it('installs to ~/.avn', function(done) {
-    var spawn = child_process.spawn;
-    var stubFunction = function() { return spawn('/bin/cat', ['/dev/null']); };
-    var stub;
+    var spawn = stubSpawn();
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_empty')
-    .then(function() { stub = sinon.stub(child_process, 'spawn', stubFunction); })
     .then(function() { return setup._install(); })
     .fin(function() {
-      try { stub.restore(); }
+      try { spawn.restore(); }
       catch(e) {}
     })
     .fin(std.restore)
     .done(function() {
       var src = path.resolve(path.join(__dirname, '..'));
       var dst = path.join(process.env.HOME, '.avn');
-      expect(stub).to.have.been.calledOnce;
-      expect(stub).to.have.been.calledWith('/bin/cp', ['-RL', src, dst]);
+      expect(spawn).to.have.been.calledOnce;
+      expect(spawn).to.have.been.calledWith('/bin/cp', ['-RL', src, dst]);
       expect(std.out).to.eql('avn: installation complete\n');
       expect(std.err).to.eql('');
       done();
