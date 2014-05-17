@@ -21,7 +21,7 @@ chai.use(require('sinon-chai'));
 var capture = require('./helpers').capture;
 var fillTemporaryHome = function(temporaryHome, source) {
   var deferred = q.defer();
-  var fullSource = path.resolve(path.join(__dirname, 'examples', source)) + '/';
+  var fullSource = path.resolve(path.join(__dirname, 'examples', source)) + '/.';
   var cmd = child_process.spawn('/bin/cp', ['-RL', fullSource, temporaryHome]);
   cmd.stdout.pipe(process.stdout);
   cmd.stderr.pipe(process.stderr);
@@ -73,8 +73,7 @@ describe('avn setup', function() {
     });
   });
 
-  // TODO: make this work on Travis
-  it.skip('appends to .bash_profile', function(done) {
+  it('appends to .bash_profile', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_with_bash_profile')
     .then(function() { return setup._updateProfile(); })
@@ -92,8 +91,7 @@ describe('avn setup', function() {
     });
   });
 
-  // TODO: make this work on Travis
-  it.skip('leaves .bash_profile untouched', function(done) {
+  it('leaves .bash_profile untouched', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_with_avn_bash_profile')
     .then(function() { return setup._updateProfile(); })
