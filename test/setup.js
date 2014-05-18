@@ -263,11 +263,20 @@ describe('avn setup', function() {
     });
   });
 
-  it.skip('runs all actions together', function(done) {
+  it('runs all actions together', function(done) {
+    var spawn = stubSpawn();
     var std = capture(['out', 'err']);
-    fillTemporaryHome(temporaryHome, 'home_empty')
-    .then(function() { return setup(); }).fin(std.restore).done(function() {
-      // make assertions
+    fillTemporaryHome(temporaryHome, 'home_empty').then(setupNPM)
+    .then(function() { return setup(); })
+    .fin(function() {
+      try { spawn.restore(); }
+      catch(e) {}
+    })
+    .fin(std.restore)
+    .done(function() {
+      expect(spawn).to.have.been.calledOnce;
+      expect(fs.existsSync(path.join(temporaryHome, '.bash_profile'))).to.be.true;
+      expect(fs.existsSync(path.join(temporaryHome, '.avnrc'))).to.be.true;
       done();
     });
   });
