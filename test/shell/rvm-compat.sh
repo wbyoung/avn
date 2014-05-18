@@ -13,7 +13,7 @@ function _avn() {
   echo avn called >> ${__tmp}
 }
 
-__rvm_after_cd() {
+__rvm_cd_functions_set() {
   echo "rvm after $@" >> ${__tmp}
 }
 

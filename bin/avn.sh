@@ -29,9 +29,9 @@ export -a __bash_failed_cd_hooks;
 # support rvm until wayneeseguin/rvm#2819 is fixed
 if [[ ${#__bash_after_cd_hooks[@]} -eq 0 ]]
 then
-  if typeset -f __rvm_after_cd &>/dev/null
+  if typeset -f __rvm_cd_functions_set &>/dev/null
   then
-    __bash_after_cd_hooks+=(__rvm_after_cd)
+    __bash_after_cd_hooks+=(__rvm_cd_functions_set)
   fi
 fi
 
