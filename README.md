@@ -27,7 +27,6 @@ free to install both plugins. They won't conflict with each other.
 
 ## Todo List
 
- * Improve test coverage.
  * Support switching back to the previous version of node that you were using
    when you leave a directory.
 
