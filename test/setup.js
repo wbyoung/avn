@@ -151,20 +151,60 @@ describe('avn setup', function() {
     });
   });
 
-  it.skip('updates ~/.avn install', function(done) {
+  it('updates ~/.avn install if installed version is old', function(done) {
+    var spawn = stubSpawn();
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_avn_outdated')
-    .then(function() { return setup._install(); }).fin(std.restore).done(function() {
-      // make assertions
+    .then(function() { return setup._install(); })
+    .fin(function() {
+      try { spawn.restore(); }
+      catch(e) {}
+    })
+    .fin(std.restore)
+    .done(function() {
+      var src = path.resolve(path.join(__dirname, '..'));
+      var dst = path.join(process.env.HOME, '.avn');
+      expect(spawn).to.have.been.calledOnce;
+      expect(spawn).to.have.been.calledWith('/bin/cp', ['-RL', src, dst]);
+      expect(std.out).to.eql('avn: installation updated\n');
+      expect(std.err).to.eql('');
       done();
     });
   });
 
-  it.skip('updates ~/.avn install', function(done) {
+  it('updates ~/.avn install if installed version is futuristic', function(done) {
+    var spawn = stubSpawn();
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_avn_futuristic')
-    .then(function() { return setup._install(); }).fin(std.restore).done(function() {
-      // make assertions
+    .then(function() { return setup._install(); })
+    .fin(function() {
+      try { spawn.restore(); }
+      catch(e) {}
+    })
+    .fin(std.restore).done(function() {
+      var src = path.resolve(path.join(__dirname, '..'));
+      var dst = path.join(process.env.HOME, '.avn');
+      expect(spawn).to.have.been.calledOnce;
+      expect(spawn).to.have.been.calledWith('/bin/cp', ['-RL', src, dst]);
+      expect(std.out).to.eql('avn: installation updated\n');
+      expect(std.err).to.eql('');
+      done();
+    });
+  });
+
+  it('skips ~/.avn install if current version is installed', function(done) {
+    var spawn = stubSpawn();
+    var std = capture(['out', 'err']);
+    fillTemporaryHome(temporaryHome, 'home_avn_current')
+    .then(function() { return setup._install(); })
+    .fin(function() {
+      try { spawn.restore(); }
+      catch(e) {}
+    })
+    .fin(std.restore).done(function() {
+      expect(spawn).to.not.have.been.called;
+      expect(std.out).to.eql('');
+      expect(std.err).to.eql('');
       done();
     });
   });
