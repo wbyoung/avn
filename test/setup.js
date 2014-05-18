@@ -277,6 +277,38 @@ describe('avn setup', function() {
       expect(spawn).to.have.been.calledOnce;
       expect(fs.existsSync(path.join(temporaryHome, '.bash_profile'))).to.be.true;
       expect(fs.existsSync(path.join(temporaryHome, '.avnrc'))).to.be.true;
+      expect(std.out.split('\n').sort()).to.eql([
+        '',
+        'avn: configuration complete (~/.avnrc)',
+        'avn: installation complete',
+        'avn: profile setup complete (~/.bash_profile)',
+        'avn: restart your terminal to start using avn'
+      ]);
+      expect(std.err).to.eql('');
+      done();
+    });
+  });
+
+  it('fails for any failed action', function(done) {
+    var spawn = stubSpawn();
+    var std = capture(['out', 'err']);
+    fillTemporaryHome(temporaryHome, 'home_with_protected_bash_profile').then(setupNPM)
+    .then(function() { return setup(); })
+    .fin(function() {
+      try { spawn.restore(); }
+      catch(e) {}
+    })
+    .fin(std.restore)
+    .done(function() {
+      expect(spawn).to.have.been.calledOnce;
+      expect(fs.existsSync(path.join(temporaryHome, '.bash_profile'))).to.be.true;
+      expect(fs.existsSync(path.join(temporaryHome, '.avnrc'))).to.be.true;
+      expect(std.out.split('\n').sort()).to.eql([
+        '',
+        'avn: configuration complete (~/.avnrc)',
+        'avn: installation complete',
+      ]);
+      expect(std.err).to.match(/^error: EACCES, open '[\/\w-]*\/.bash_profile'\n$/);
       done();
     });
   });
