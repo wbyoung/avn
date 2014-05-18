@@ -1,0 +1,3 @@
+{
+  "plugins": ["plugin", "bad", "bad-require", "bad-require-custom-throw"]
+}
