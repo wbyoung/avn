@@ -121,8 +121,10 @@ describe('avn setup', function() {
   });
 
   it('errors if .bash_profile cannot be written', function(done) {
+    var profile = path.join(temporaryHome, '.bash_profile');
     var std = capture(['out', 'err']);
-    fillTemporaryHome(temporaryHome, 'home_with_protected_bash_profile')
+    fillTemporaryHome(temporaryHome, 'home_with_bash_profile')
+    .then(function() { return q.nfcall(fs.chmod, profile, 0400); })
     .then(function() { return setup._updateProfile(); })
     .then(function() { throw new Error('Expected error thrown'); }, function(e) {
       expect(std.out).to.eql('');
@@ -290,9 +292,11 @@ describe('avn setup', function() {
   });
 
   it('fails for any failed action', function(done) {
+    var profile = path.join(temporaryHome, '.bash_profile');
     var spawn = stubSpawn();
     var std = capture(['out', 'err']);
-    fillTemporaryHome(temporaryHome, 'home_with_protected_bash_profile').then(setupNPM)
+    fillTemporaryHome(temporaryHome, 'home_with_bash_profile').then(setupNPM)
+    .then(function() { return q.nfcall(fs.chmod, profile, 0400) })
     .then(function() { return setup(); })
     .fin(function() {
       try { spawn.restore(); }
