@@ -124,7 +124,7 @@ describe('avn setup', function() {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_with_protected_bash_profile')
     .then(function() { return setup._updateProfile(); })
-    .catch(function(e) {
+    .then(function() { throw new Error('Expected error thrown'); }, function(e) {
       expect(std.out).to.eql('');
       expect(std.err).to.eql('');
       expect(e.code).to.eql('EACCES');
