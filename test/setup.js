@@ -296,7 +296,7 @@ describe('avn setup', function() {
     var spawn = stubSpawn();
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_with_bash_profile').then(setupNPM)
-    .then(function() { return q.nfcall(fs.chmod, profile, 0400) })
+    .then(function() { return q.nfcall(fs.chmod, profile, 0400); })
     .then(function() { return setup(); })
     .fin(function() {
       try { spawn.restore(); }
