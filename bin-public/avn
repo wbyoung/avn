@@ -8,6 +8,8 @@ program
   .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version)
   .command('setup')
   .description('setup avn')
-  .action(avn.setup);
+  .action(function() {
+    avn.setup().done();
+  });
 
 program.parse(process.argv);
