@@ -15,18 +15,51 @@ function __avn_eval() {
 }
 
 function __avn_before() {
-  [[ -f "$1/.node-version" ]] && __avn_eval before-cd "$@"
+  [[ -f "`pwd`/.node-version" ]] && __avn_eval before-cd `pwd` "$@"
 }
 
 function __avn_after() {
-  [[ -f "$1/.node-version" ]] && __avn_eval after-cd "$@"
+  [[ -f "`pwd`/.node-version" ]] && __avn_eval after-cd `pwd` "$@"
 }
 
+export -a __bash_before_cd_hooks;
+export -a __bash_after_cd_hooks;
+export -a __bash_failed_cd_hooks;
+
+# support rvm until wayneeseguin/rvm#2819 is fixed
+if [[ ${#__bash_after_cd_hooks[@]} -eq 0 ]]
+then
+  if typeset -f __rvm_after_cd &>/dev/null
+  then
+    __bash_after_cd_hooks+=(__rvm_after_cd)
+  fi
+fi
+
+__bash_before_cd_hooks+=(__avn_before)
+__bash_after_cd_hooks+=(__avn_after)
+__bash_failed_cd_hooks+=()
+
 function cd() {
+  typeset __hook
   typeset __result=0
-  __avn_before `pwd` "$@" || true
+
+  for __hook in "${__bash_before_cd_hooks[@]}"
+    do "$__hook" "$@" || true
+  done
+
   builtin cd "$@" || __result=$?
-  __avn_after `pwd` "$@" || true
+
+  if [[ $__result -eq 0 ]] ;
+  then
+    for __hook in "${__bash_after_cd_hooks[@]}"
+      do "$__hook" "$@" || true
+    done
+  else
+    for __hook in "${__bash_failed_cd_hooks[@]}"
+      do "$__hook" "$@" || true
+    done
+  fi
+
   return $__result
 }
 
