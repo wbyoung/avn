@@ -40,11 +40,16 @@ var fillTemporaryHome = function(temporaryHome, source) {
   });
   return deferred.promise;
 };
+var setupNPM = function() {
+  var npm = require('npm');
+  var load = q.nbind(npm.load, npm);
+  var prefix = path.resolve(path.join(__dirname, '../test/examples/node_install'));
+  return q.ninvoke(npm, 'load', { prefix: prefix });
+};
 
 describe('avn setup', function() {
   var temporaryHome;
   var home = process.env.HOME;
-  var nodePath = process.env.NODE_PATH;
   var chalkEnabled = chalk.enabled;
 
   before(function() {
@@ -58,13 +63,11 @@ describe('avn setup', function() {
   beforeEach(function() {
     temporaryHome = temp.mkdirSync();
     process.env.HOME = temporaryHome;
-    process.env.NODE_PATH = path.resolve(path.join(__dirname, 'examples/node_install/node_modules'));
     require('module')._initPaths();
   });
 
   afterEach(function() {
     process.env.HOME = home;
-    process.env.NODE_PATH = nodePath;
     require('module')._initPaths();
     temp.cleanup();
   });
@@ -218,11 +221,20 @@ describe('avn setup', function() {
     });
   });
 
-  it.skip('creates ~/.avnrc', function(done) {
+  it('creates ~/.avnrc', function(done) {
+    var npm = require('npm');
+    var load = q.nbind(npm.load, npm);
+    var prefix = path.resolve(path.join(__dirname, '../test/examples/node_install'));
+
     var std = capture(['out', 'err']);
-    fillTemporaryHome(temporaryHome, 'home_empty')
+    fillTemporaryHome(temporaryHome, 'home_empty').then(setupNPM)
     .then(function() { return setup._updateConfigurationFile(); }).fin(std.restore).done(function() {
-      // make assertions
+      var file = path.join(temporaryHome, '.avnrc');
+      var contents = fs.readFileSync(file, 'utf8');
+      var rc = JSON.parse(contents);
+      expect(std.out).to.eql('avn: configuration complete (~/.avnrc)\n');
+      expect(std.err).to.eql('');
+      expect(rc).to.eql({ plugins: ['bad', 'bad-require', 'bad-require-custom-throw', 'plugin'] });
       done();
     });
   });

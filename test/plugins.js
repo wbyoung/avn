@@ -17,7 +17,7 @@ describe('avn plugins', function() {
 
   beforeEach(function() {
     process.env.HOME = path.resolve(path.join(__dirname, 'examples/home'));
-    process.env.NODE_PATH = path.resolve(path.join(__dirname, 'examples/node_install/node_modules'));
+    process.env.NODE_PATH = path.resolve(path.join(__dirname, 'examples/node_install/lib/node_modules'));
     require('module')._initPaths();
   });
   afterEach(function() {
