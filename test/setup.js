@@ -222,10 +222,6 @@ describe('avn setup', function() {
   });
 
   it('creates ~/.avnrc', function(done) {
-    var npm = require('npm');
-    var load = q.nbind(npm.load, npm);
-    var prefix = path.resolve(path.join(__dirname, '../test/examples/node_install'));
-
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_empty').then(setupNPM)
     .then(function() { return setup._updateConfigurationFile(); }).fin(std.restore).done(function() {
