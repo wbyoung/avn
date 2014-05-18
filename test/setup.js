@@ -235,20 +235,30 @@ describe('avn setup', function() {
     });
   });
 
-  it.skip('updates ~/.avnrc', function(done) {
+  it('updates ~/.avnrc', function(done) {
     var std = capture(['out', 'err']);
-    fillTemporaryHome(temporaryHome, 'home_avnrc_missing_plugins')
+    fillTemporaryHome(temporaryHome, 'home_avnrc_missing_plugins').then(setupNPM)
     .then(function() { return setup._updateConfigurationFile(); }).fin(std.restore).done(function() {
-      // make assertions
+      var file = path.join(temporaryHome, '.avnrc');
+      var contents = fs.readFileSync(file, 'utf8');
+      var rc = JSON.parse(contents);
+      expect(std.out).to.eql('avn: configuration updated (~/.avnrc)\n');
+      expect(std.err).to.eql('');
+      expect(rc).to.eql({ plugins: ['custom', 'bad', 'bad-require', 'bad-require-custom-throw', 'plugin'] });
       done();
     });
   });
 
-  it.skip('leaves ~/.avnrc untouched', function(done) {
+  it('leaves ~/.avnrc untouched', function(done) {
     var std = capture(['out', 'err']);
-    fillTemporaryHome(temporaryHome, 'home_avnrc_plugins_current')
+    fillTemporaryHome(temporaryHome, 'home_avnrc_plugins_current').then(setupNPM)
     .then(function() { return setup._updateConfigurationFile(); }).fin(std.restore).done(function() {
-      // make assertions
+      var file = path.join(temporaryHome, '.avnrc');
+      var contents = fs.readFileSync(file, 'utf8');
+      var rc = JSON.parse(contents);
+      expect(std.out).to.eql('avn: configuration unchanged (~/.avnrc)\n');
+      expect(std.err).to.eql('');
+      expect(rc).to.eql({ plugins: ['plugin', 'bad', 'bad-require', 'bad-require-custom-throw'] });
       done();
     });
   });
