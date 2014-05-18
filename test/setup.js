@@ -209,6 +209,15 @@ describe('avn setup', function() {
     });
   });
 
+  it('fails ~/.avn install if home directory is not writable', function(done) {
+    var std = capture(['out', 'err']);
+    q.nfcall(fs.chmod, temporaryHome, 600)
+    .then(function() { return setup._install(); }).fin(std.restore).fail(function(e) {
+      expect(e).to.match(/cp exited with status: 1/);
+      done();
+    });
+  });
+
   it.skip('creates ~/.avnrc', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_empty')
