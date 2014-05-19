@@ -16,8 +16,8 @@ describe('avn plugins', function() {
   var all = plugins.all();
 
   beforeEach(function() {
-    process.env.HOME = path.resolve(path.join(__dirname, 'examples/home'));
-    process.env.NODE_PATH = path.resolve(path.join(__dirname, 'examples/node_install/lib/node_modules'));
+    process.env.HOME = path.resolve(path.join(__dirname, 'fixtures/home'));
+    process.env.NODE_PATH = path.resolve(path.join(__dirname, 'fixtures/node_install/lib/node_modules'));
     require('module')._initPaths();
   });
   afterEach(function() {
@@ -31,27 +31,27 @@ describe('avn plugins', function() {
   });
 
   it('works with no config file', function() {
-    process.env.HOME = path.resolve(path.join(__dirname, 'examples/home_empty'));
+    process.env.HOME = path.resolve(path.join(__dirname, 'fixtures/home_empty'));
     expect(_.map(plugins._all(), 'name')).to.be.defined;
   });
 
   it('ignores missing plugins', function() {
-    process.env.HOME = path.resolve(path.join(__dirname, 'examples/home_missing'));
+    process.env.HOME = path.resolve(path.join(__dirname, 'fixtures/home_missing'));
     expect(_.map(plugins._all(), 'name')).not.to.contain('avn-missing');
   });
 
   it('throws for plugins with syntax errors', function() {
-    process.env.HOME = path.resolve(path.join(__dirname, 'examples/home_error'));
+    process.env.HOME = path.resolve(path.join(__dirname, 'fixtures/home_error'));
     expect(plugins._all).to.throw(/unexpected_identifier is not defined/i);
   });
 
   it('throws for plugins with load errors', function() {
-    process.env.HOME = path.resolve(path.join(__dirname, 'examples/home_require_error'));
+    process.env.HOME = path.resolve(path.join(__dirname, 'fixtures/home_require_error'));
     expect(plugins._all).to.throw(/cannot find module '([^']*)'/i);
   });
 
   it('throws for plugins with load errors (after msg change)', function() {
-    process.env.HOME = path.resolve(path.join(__dirname, 'examples/home_require_error_custom'));
+    process.env.HOME = path.resolve(path.join(__dirname, 'fixtures/home_require_error_custom'));
     expect(plugins._all).to.throw(/cannot find a module/i);
   });
 

@@ -30,7 +30,7 @@ var stubSpawn = function() {
 var capture = require('./helpers').capture;
 var fillTemporaryHome = function(temporaryHome, source) {
   var deferred = q.defer();
-  var fullSource = path.resolve(path.join(__dirname, 'examples', source)) + '/.';
+  var fullSource = path.resolve(path.join(__dirname, 'fixtures', source)) + '/.';
   var cmd = spawn('/bin/cp', ['-RL', fullSource, temporaryHome]);
   cmd.stdout.pipe(process.stdout);
   cmd.stderr.pipe(process.stderr);
@@ -43,7 +43,7 @@ var fillTemporaryHome = function(temporaryHome, source) {
 var setupNPM = function() {
   var npm = require('npm');
   var load = q.nbind(npm.load, npm);
-  var prefix = path.resolve(path.join(__dirname, '../test/examples/node_install'));
+  var prefix = path.resolve(path.join(__dirname, '../test/fixtures/node_install'));
   return q.ninvoke(npm, 'load', { prefix: prefix });
 };
 

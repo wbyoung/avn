@@ -7,7 +7,7 @@ typeset __tmp=`mktemp /tmp/avn-test.XXXXXX`
 typeset __written=""
 
 # start in a known location
-cd "${__testdir}/examples/home"
+cd "${__testdir}/fixtures/home"
 
 # what _avn writes to fd 3 should be eval'd by the cd
 function _avn() {
@@ -16,11 +16,11 @@ function _avn() {
 
 source "${__shelldir}/helpers.sh"
 source "${__testdir}/../bin/avn.sh"
-cd "${__testdir}/examples/v0.11.13"
+cd "${__testdir}/fixtures/v0.11.13"
 __written=`echo $(cat ${__tmp})`
 
-assertEqual `pwd` "${__testdir}/examples/v0.11.13" || exit 1
-assertEqual "${AVN_LAST_DIR}" "${__testdir}/examples/v0.11.13" || exit 1
+assertEqual `pwd` "${__testdir}/fixtures/v0.11.13" || exit 1
+assertEqual "${AVN_LAST_DIR}" "${__testdir}/fixtures/v0.11.13" || exit 1
 assertEqual "after-cd" "${__written}" || exit 1
 
 rm ${__tmp}

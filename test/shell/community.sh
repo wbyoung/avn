@@ -7,7 +7,7 @@ typeset __tmp=`mktemp /tmp/avn-test.XXXXXX`
 typeset __written=""
 
 # start in a known location
-cd "${__testdir}/examples/home"
+cd "${__testdir}/fixtures/home"
 
 function _avn() {
   echo avn called >> ${__tmp}
@@ -34,12 +34,12 @@ source "${__shelldir}/helpers.sh"
 source "${__testdir}/../bin/avn.sh"
 
 # test that other hooks were called & called before avn
-cd "${__testdir}/examples/v0.10"
+cd "${__testdir}/fixtures/v0.10"
 __written=`echo $(cat ${__tmp})`
 assertEqual "other before other after avn called" "${__written}" || exit 1
 
 # change to a directory that doesn't exist
-cd "${__testdir}/examples/home"
+cd "${__testdir}/fixtures/home"
 echo "" > ${__tmp} # clear output
 cd "/path/to/some/place/that/we/expect/never/exists" &> /dev/null
 __written=`echo $(cat ${__tmp})`

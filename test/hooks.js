@@ -14,7 +14,7 @@ chai.use(require('sinon-chai'));
 
 var capture = require('./helpers').capture;
 var example = function(name) {
-  return path.join(__dirname, 'examples', name);
+  return path.join(__dirname, 'fixtures', name);
 };
 
 describe('avn', function() {

@@ -7,7 +7,7 @@ typeset __tmp=`mktemp /tmp/avn-test.XXXXXX`
 typeset __written=""
 
 # start in a known location
-cd "${__testdir}/examples/home"
+cd "${__testdir}/fixtures/home"
 
 function _avn() {
   echo avn called >> ${__tmp}
@@ -17,10 +17,10 @@ source "${__shelldir}/helpers.sh"
 source "${__testdir}/../bin/avn.sh"
 
 # test that _avn isn't invoked when .node-version file isn't there
-cd "${__testdir}/examples/none"
+cd "${__testdir}/fixtures/none"
 __written=`echo $(cat ${__tmp})`
 
-assertEqual `pwd` "${__testdir}/examples/none" || exit 1
+assertEqual `pwd` "${__testdir}/fixtures/none" || exit 1
 assertEqual "" "${__written}" || exit 1
 
 rm ${__tmp}
