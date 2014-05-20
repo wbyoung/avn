@@ -161,12 +161,9 @@ describe('avn setup', function() {
   });
 
   it('installs plugins to ~/.avn', function(done) {
-    // TODO: make the bad versions be already up to date.
     var spawn = stubSpawn();
     var std = capture(['out', 'err']);
-    fillTemporaryHome(temporaryHome, 'home_empty').then(setupNPM)
-    .then(function() { return q.nfcall(fs.mkdir, path.join(temporaryHome, '.avn')); })
-    .then(function() { return q.nfcall(fs.mkdir, path.join(temporaryHome, '.avn', 'plugins')); })
+    fillTemporaryHome(temporaryHome, 'home_avn_some_plugins').then(setupNPM)
     .then(function() { return setup._install(); })
     .fin(function() {
       try { spawn.restore(); }
@@ -176,17 +173,12 @@ describe('avn setup', function() {
     .done(function() {
       var src = path.resolve(path.join(__dirname, '..'));
       var dst = path.join(process.env.HOME, '.avn');
-      expect(spawn).to.have.callCount(5);
+      expect(spawn).to.be.calledTwice;
       expect(spawn).to.have.been.calledWith('/bin/cp', ['-RL', src, dst]);
-      ['bad', 'bad-require', 'bad-require-custom-throw', 'plugin'].forEach(function(name) {
-        var pluginSrc = path.resolve(path.join(__dirname, 'fixtures/node_install/lib/node_modules', 'avn-' + name));
-        var pluginDst = path.join(process.env.HOME, '.avn/plugins/avn-' + name);
-        expect(spawn).to.have.been.calledWith('/bin/cp', ['-RL', pluginSrc, pluginDst]);
-      });
+      src = path.resolve(path.join(__dirname, 'fixtures/node_install/lib/node_modules/avn-plugin'));
+      dst = path.join(process.env.HOME, '.avn/plugins/avn-plugin');
+      expect(spawn).to.have.been.calledWith('/bin/cp', ['-RL', src, dst]);
       expect(std.out).to.eql('avn: installation complete\n' +
-        'avn-bad-require-custom-throw: installation complete\n' +
-        'avn-bad-require: installation complete\n' +
-        'avn-bad: installation complete\n' +
         'avn-plugin: installation complete\n');
       expect(std.err).to.eql('');
       done();
