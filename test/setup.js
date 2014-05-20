@@ -138,6 +138,44 @@ describe('avn setup', function() {
     .done(function() { done(); });
   });
 
+  it('updates .zshrc without creating .bash_profile', function(done) {
+    var std = capture(['out', 'err']);
+    fillTemporaryHome(temporaryHome, 'home_with_zsh')
+    .then(function() { return setup._updateProfile(); }).fin(std.restore).done(function() {
+      var file = path.join(temporaryHome, '.zshrc');
+      var contents = fs.readFileSync(file, 'utf8');
+      expect(contents).to.contain('avn');
+      expect(contents).to.contain('alias grep');
+      expect(fs.existsSync(path.join(temporaryHome, '.bash_profile'))).to.be.false;
+      expect(std.out).to.eql(
+        'avn: profile setup complete (~/.zshrc)\n' +
+        'avn: restart your terminal to start using avn\n');
+      expect(std.err).to.eql('');
+      done();
+    });
+  });
+
+  it('updates .zshrc and .bash_profile', function(done) {
+    var std = capture(['out', 'err']);
+    fillTemporaryHome(temporaryHome, 'home_with_bash_profile_and_zsh')
+    .then(function() { return setup._updateProfile(); }).fin(std.restore).done(function() {
+      var file = path.join(temporaryHome, '.bash_profile');
+      var contents = fs.readFileSync(file, 'utf8');
+      expect(contents).to.contain('avn');
+      expect(contents).to.contain('alias grep');
+      file = path.join(temporaryHome, '.zshrc');
+      contents = fs.readFileSync(file, 'utf8');
+      expect(contents).to.contain('avn');
+      expect(contents).to.contain('alias grep');
+      expect(std.out).to.eql(
+        'avn: profile setup complete (~/.bash_profile)\n' +
+        'avn: profile setup complete (~/.zshrc)\n' +
+        'avn: restart your terminal to start using avn\n');
+      expect(std.err).to.eql('');
+      done();
+    });
+  });
+
   it('installs to ~/.avn', function(done) {
     var spawn = stubSpawn();
     var std = capture(['out', 'err']);
