@@ -170,10 +170,10 @@ describe('avn setup', function() {
       contents = fs.readFileSync(file, 'utf8');
       expect(contents).to.contain('avn');
       expect(contents).to.contain('alias grep');
-      expect(std.out).to.eql(
-        'avn: profile setup complete (~/.bash_profile)\n' +
-        'avn: profile setup complete (~/.zshrc)\n' +
-        'avn: restart your terminal to start using avn\n');
+      expect(std.out.split('\n').sort()).to.eql(['',
+        'avn: profile setup complete (~/.bash_profile)',
+        'avn: profile setup complete (~/.zshrc)',
+        'avn: restart your terminal to start using avn']);
       expect(std.err).to.eql('');
       done();
     });
