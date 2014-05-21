@@ -8,6 +8,9 @@ var npm = require('npm');
 var path = require('path');
 var chalk = require('chalk');
 var setup = require('../lib/setup');
+var install = require('../lib/setup/install').all;
+var updateProfile = require('../lib/setup/profile').update;
+var updateConfigurationFile = require('../lib/setup/config').update;
 var child_process = require('child_process');
 var temp = require('temp').track();
 var fs = require('fs');
@@ -78,7 +81,7 @@ describe('avn setup', function() {
   it('creates .bash_profile', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_empty')
-    .then(function() { return setup._updateProfile(); }).fin(std.restore).done(function() {
+    .then(function() { return updateProfile(); }).fin(std.restore).done(function() {
       expect(fs.existsSync(path.join(temporaryHome, '.bash_profile'))).to.be.true;
       expect(std.out).to.eql(
         'avn: profile setup complete (~/.bash_profile)\n' +
@@ -91,7 +94,7 @@ describe('avn setup', function() {
   it('appends to .bash_profile', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_with_bash_profile')
-    .then(function() { return setup._updateProfile(); })
+    .then(function() { return updateProfile(); })
     .fin(std.restore)
     .done(function() {
       var file = path.join(temporaryHome, '.bash_profile');
@@ -109,7 +112,7 @@ describe('avn setup', function() {
   it('leaves .bash_profile untouched', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_with_avn_bash_profile')
-    .then(function() { return setup._updateProfile(); })
+    .then(function() { return updateProfile(); })
     .fin(std.restore)
     .done(function() {
       var file = path.join(temporaryHome, '.bash_profile');
@@ -128,7 +131,7 @@ describe('avn setup', function() {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_with_bash_profile')
     .then(function() { return q.nfcall(fs.chmod, profile, 0400); })
-    .then(function() { return setup._updateProfile(); })
+    .then(function() { return updateProfile(); })
     .then(function() { throw new Error('Expected error thrown'); }, function(e) {
       expect(std.out).to.eql('');
       expect(std.err).to.eql('');
@@ -141,7 +144,7 @@ describe('avn setup', function() {
   it('updates .zshrc without creating .bash_profile', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_with_zsh')
-    .then(function() { return setup._updateProfile(); }).fin(std.restore).done(function() {
+    .then(function() { return updateProfile(); }).fin(std.restore).done(function() {
       var file = path.join(temporaryHome, '.zshrc');
       var contents = fs.readFileSync(file, 'utf8');
       expect(contents).to.contain('avn');
@@ -158,7 +161,7 @@ describe('avn setup', function() {
   it('updates .zshrc and .bash_profile', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_with_bash_profile_and_zsh')
-    .then(function() { return setup._updateProfile(); }).fin(std.restore).done(function() {
+    .then(function() { return updateProfile(); }).fin(std.restore).done(function() {
       var file = path.join(temporaryHome, '.bash_profile');
       var contents = fs.readFileSync(file, 'utf8');
       expect(contents).to.contain('avn');
@@ -181,7 +184,7 @@ describe('avn setup', function() {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_empty').then(setupNPM)
     .then(function() { npm.prefix = '/path/to/nowhere'; })
-    .then(function() { return setup._install(); })
+    .then(function() { return install(); })
     .fin(function() {
       try { spawn.restore(); }
       catch(e) {}
@@ -202,7 +205,7 @@ describe('avn setup', function() {
     var spawn = stubSpawn();
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_avn_some_plugins').then(setupNPM)
-    .then(function() { return setup._install(); })
+    .then(function() { return install(); })
     .fin(function() {
       try { spawn.restore(); }
       catch(e) {}
@@ -229,7 +232,7 @@ describe('avn setup', function() {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_avn_outdated').then(setupNPM)
     .then(function() { npm.prefix = '/path/to/nowhere'; })
-    .then(function() { return setup._install(); })
+    .then(function() { return install(); })
     .fin(function() {
       try { spawn.restore(); }
       catch(e) {}
@@ -251,7 +254,7 @@ describe('avn setup', function() {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_avn_futuristic').then(setupNPM)
     .then(function() { npm.prefix = '/path/to/nowhere'; })
-    .then(function() { return setup._install(); })
+    .then(function() { return install(); })
     .fin(function() {
       try { spawn.restore(); }
       catch(e) {}
@@ -272,7 +275,7 @@ describe('avn setup', function() {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_avn_current').then(setupNPM)
     .then(function() { npm.prefix = '/path/to/nowhere'; })
-    .then(function() { return setup._install(); })
+    .then(function() { return install(); })
     .fin(function() {
       try { spawn.restore(); }
       catch(e) {}
@@ -290,7 +293,7 @@ describe('avn setup', function() {
     var std = capture(['out', 'err']);
     q.nfcall(fs.chmod, temporaryHome, 600)
     .then(function() { npm.prefix = '/path/to/nowhere'; })
-    .then(function() { return setup._install(); })
+    .then(function() { return install(); })
     .then(function() { throw new Error('Expected error thrown'); }, function(e) {
       expect(e).to.match(/cp exited with status: 1/);
     })
@@ -305,7 +308,7 @@ describe('avn setup', function() {
   it('creates ~/.avnrc', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_empty').then(setupNPM)
-    .then(function() { return setup._updateConfigurationFile(); }).fin(std.restore).done(function() {
+    .then(function() { return updateConfigurationFile(); }).fin(std.restore).done(function() {
       var file = path.join(temporaryHome, '.avnrc');
       var contents = fs.readFileSync(file, 'utf8');
       var rc = JSON.parse(contents);
@@ -319,7 +322,7 @@ describe('avn setup', function() {
   it('updates ~/.avnrc', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_avnrc_missing_plugins').then(setupNPM)
-    .then(function() { return setup._updateConfigurationFile(); }).fin(std.restore).done(function() {
+    .then(function() { return updateConfigurationFile(); }).fin(std.restore).done(function() {
       var file = path.join(temporaryHome, '.avnrc');
       var contents = fs.readFileSync(file, 'utf8');
       var rc = JSON.parse(contents);
@@ -333,7 +336,7 @@ describe('avn setup', function() {
   it('leaves ~/.avnrc untouched', function(done) {
     var std = capture(['out', 'err']);
     fillTemporaryHome(temporaryHome, 'home_avnrc_plugins_current').then(setupNPM)
-    .then(function() { return setup._updateConfigurationFile(); }).fin(std.restore).done(function() {
+    .then(function() { return updateConfigurationFile(); }).fin(std.restore).done(function() {
       var file = path.join(temporaryHome, '.avnrc');
       var contents = fs.readFileSync(file, 'utf8');
       var rc = JSON.parse(contents);
