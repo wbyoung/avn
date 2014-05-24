@@ -36,7 +36,7 @@ export -a chpwd_functions;
 [[ " ${chpwd_functions[*]} " == *" __avn_after_cd "* ]] ||
   chpwd_functions+=(__avn_after_cd)
 
-# support rvm until wayneeseguin/rvm#2819 is fixed
+# support rvm until chpwd_functions are integrated
 [[ " ${chpwd_functions[*]} " == *" __rvm"* ]] ||
   chpwd_functions+=(__rvm_cd_functions_set)
 
