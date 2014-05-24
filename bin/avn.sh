@@ -19,8 +19,8 @@ function __avn_eval() {
 }
 
 function __avn_after_cd() {
-  [[ -f "`pwd`/.node-version" ]] &&
-    __avn_eval after-cd `pwd` "$@" || true
+  [[ -f ".node-version" ]] &&
+    __avn_eval after-cd "$PWD" "$@" || true
 }
 
 export PATH="$HOME/.avn/bin:$PATH"
