@@ -23,14 +23,6 @@ program
   .option('-c --color', 'use colors (automatic for some commands)');
 
 program
-  .command('before-cd <path> [cd-arg]')
-  .description('eval actions for before cd')
-  .action(hook(function(dir) {
-    avn.hooks.before(path.resolve(dir),
-      { verbose: program.verbose }).done();
-  }));
-
-program
   .command('after-cd <path> [cd-arg]')
   .description('eval actions for after cd')
   .action(hook(function(dir) {

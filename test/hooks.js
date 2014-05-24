@@ -45,12 +45,6 @@ describe('avn', function() {
       };
     });
 
-    describe('before', function() {
-      it('exists', function(done) {
-        avn.hooks.before(example('v0.10.26')).done(done);
-      });
-    });
-
     describe('after', function() {
       it('does nothing when no version file exists', function(done) {
         var std = capture();
