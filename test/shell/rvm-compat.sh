@@ -23,6 +23,6 @@ source "${__testdir}/../bin/avn.sh"
 # test that other hooks were called before avn
 cd "${__testdir}/fixtures/v0.10"
 __written=`echo $(cat ${__tmp})`
-assertEqual "rvm after ${__testdir}/fixtures/v0.10 avn called" "${__written}" || exit 1
+assertEqual "avn called rvm after ${__testdir}/fixtures/v0.10" "${__written}" || exit 1
 
 rm ${__tmp}

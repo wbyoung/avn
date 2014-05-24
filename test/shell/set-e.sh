@@ -27,18 +27,18 @@ __written=`echo $(cat ${__tmp})`
 assertEqual `pwd` "${__testdir}/fixtures/v0.11" || exit 1
 assertEqual "after-cd" "${__written}" || exit 1
 
-# change to a directory where both the before and after hook will be called
+# change to another directory where after hook will be called
 echo "" > ${__tmp} # clear output
 cd "${__testdir}/fixtures/v0.10.28"
 __written=`echo $(cat ${__tmp})`
 assertEqual `pwd` "${__testdir}/fixtures/v0.10.28" || exit 1
-assertEqual "before-cd after-cd" "${__written}" || exit 1
+assertEqual "after-cd" "${__written}" || exit 1
 
-# change to a directory where the before hook will be called
+# change to a directory where the after hook will not be called
 echo "" > ${__tmp} # clear output
 cd "${__testdir}/fixtures/home"
 __written=`echo $(cat ${__tmp})`
 assertEqual `pwd` "${__testdir}/fixtures/home" || exit 1
-assertEqual "before-cd" "${__written}" || exit 1
+assertEqual "" "${__written}" || exit 1
 
 rm ${__tmp}

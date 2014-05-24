@@ -10,29 +10,28 @@ typeset __written=""
 cd "${__testdir}/fixtures/home"
 
 function _avn() {
-  echo avn >> ${__tmp}
+  echo avn called >> ${__tmp}
 }
 
-function __other_after_cd {
-  echo other >> ${__tmp}
+__rvm_cd_after_future_version() {
+  echo "rvm future after" >> ${__tmp}
+}
+
+# for compatibility, we pull this function if defined, but if rvm specified a
+# different function (like the one above), we shouldn't be making changes.
+__rvm_cd_functions_set() {
+  echo "rvm after" >> ${__tmp}
 }
 
 export -a chpwd_functions;
-chpwd_functions+=(__other_after_cd)
+chpwd_functions+=(__rvm_cd_after_future_version)
 
 source "${__shelldir}/helpers.sh"
 source "${__testdir}/../bin/avn.sh"
 
-# test that other hooks were called & called before avn
+# test that other hooks were called before avn
 cd "${__testdir}/fixtures/v0.10"
 __written=`echo $(cat ${__tmp})`
-assertEqual "other avn" "${__written}" || exit 1
-
-# change to a directory that doesn't exist
-cd "${__testdir}/fixtures/home"
-echo "" > ${__tmp} # clear output
-cd "/path/to/some/place/that/we/expect/never/exists" &> /dev/null
-__written=`echo $(cat ${__tmp})`
-assertEqual "" "${__written}" || exit 1
+assertEqual "rvm future after avn called" "${__written}" || exit 1
 
 rm ${__tmp}

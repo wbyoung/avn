@@ -1,3 +1,7 @@
+##
+# Functionality specific to avn
+#
+
 function __avn_eval() {
   typeset cmd actions actions_result options
 
@@ -14,53 +18,58 @@ function __avn_eval() {
   fi
 }
 
-function __avn_before() {
-  [[ -f "`pwd`/.node-version" ]] && __avn_eval before-cd `pwd` "$@"
-}
-
-function __avn_after() {
+function __avn_after_cd() {
   [[ -f "`pwd`/.node-version" ]] && __avn_eval after-cd `pwd` "$@"
 }
 
-export -a __bash_before_cd_hooks;
-export -a __bash_after_cd_hooks;
-export -a __bash_failed_cd_hooks;
+export PATH="$HOME/.avn/bin:$PATH"
+
+
+##
+# Hooks that will happen after the working directory is changed
+#
+
+export -a chpwd_functions;
+
+[[ " ${chpwd_functions[*]} " == *" __avn_after_cd "* ]] ||
+  chpwd_functions+=(__avn_after_cd)
 
 # support rvm until wayneeseguin/rvm#2819 is fixed
-if [[ ${#__bash_after_cd_hooks[@]} -eq 0 ]]
-then
-  if typeset -f __rvm_cd_functions_set &>/dev/null
-  then
-    __bash_after_cd_hooks+=(__rvm_cd_functions_set)
-  fi
-fi
+[[ " ${chpwd_functions[*]} " == *" __rvm"* ]] ||
+  chpwd_functions+=(__rvm_cd_functions_set)
 
-__bash_before_cd_hooks+=(__avn_before)
-__bash_after_cd_hooks+=(__avn_after)
-__bash_failed_cd_hooks+=()
 
-function cd() {
-  typeset __hook
-  typeset __result=0
+##
+# Compatibility
+#
+# The code below based on Michal Papis's bash_zsh_support and licensed under
+# the LGPL. You can find a full copy of the project and the license:
+# https://github.com/mpapis/bash_zsh_support
+# https://github.com/mpapis/bash_zsh_support/blob/master/LICENSE
+#
 
-  for __hook in "${__bash_before_cd_hooks[@]}"
-    do "$__hook" "$@" || true
-  done
-
-  builtin cd "$@" || __result=$?
-
-  if [[ $__result -eq 0 ]] ;
-  then
-    for __hook in "${__bash_after_cd_hooks[@]}"
-      do "$__hook" "$@" || true
-    done
-  else
-    for __hook in "${__bash_failed_cd_hooks[@]}"
-      do "$__hook" "$@" || true
-    done
-  fi
-
-  return $__result
+[[ -n "${ZSH_VERSION:-}" ]] ||
+{
+  # On bash and old zsh we need to define chpwd_functions handler
+  __zsh_like_cd()
+  {
+    typeset __zsh_like_cd_hook
+    if
+      builtin "$@"
+    then
+      shift || true # remove the called method
+      for __zsh_like_cd_hook in chpwd "${chpwd_functions[@]}"
+      do
+        if typeset -f "$__zsh_like_cd_hook" >/dev/null 2>&1
+        then "$__zsh_like_cd_hook" "$@" || break # finish on first failed hook
+        fi
+      done
+      true
+    else
+      return $?
+    fi
+  }
+  cd()    { __zsh_like_cd cd    "$@" ; }
+  popd()  { __zsh_like_cd popd  "$@" ; }
+  pushd() { __zsh_like_cd pushd "$@" ; }
 }
-
-export PATH="$HOME/.avn/bin:$PATH"

@@ -21,10 +21,10 @@ cd "../v0.11"
 __written=`echo $(cat ${__tmp})`
 assertEqual "after-cd --color ${__testdir}/fixtures/v0.11 ../v0.11" "${__written}" || exit 1
 
-# change to a directory where the before hook will be called
+# change to a directory where the after hook will not be called
 echo "" > ${__tmp} # clear output
 cd "../../fixtures/home"
 __written=`echo $(cat ${__tmp})`
-assertEqual "before-cd --color ${__testdir}/fixtures/v0.11 ../../fixtures/home" "${__written}" || exit 1
+assertEqual "" "${__written}" || exit 1
 
 rm ${__tmp}
