@@ -32,6 +32,7 @@ export PATH="$HOME/.avn/bin:$PATH"
 
 export -a chpwd_functions;
 
+# add avn functionality
 [[ " ${chpwd_functions[*]} " == *" __avn_after_cd "* ]] ||
   chpwd_functions+=(__avn_after_cd)
 
