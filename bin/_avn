@@ -35,8 +35,6 @@ program
   .description('show what will happen for a given path')
   .action(function(dir) {
     process.stdcmd = process.stderr;
-    avn.hooks.before(path.resolve(dir),
-      { verbose: program.verbose }).done();
     avn.hooks.after(path.resolve(dir),
       { verbose: program.verbose }).done();
   });
