@@ -23,10 +23,10 @@ program
   .option('-c --color', 'use colors (automatic for some commands)');
 
 program
-  .command('after-cd <path> [cd-arg]')
-  .description('eval actions for after cd')
+  .command('chpwd <path> [cd-arg]')
+  .description('eval actions for chpwd')
   .action(hook(function(dir) {
-    avn.hooks.after(path.resolve(dir),
+    avn.hooks.chpwd(path.resolve(dir),
       { verbose: program.verbose }).done();
   }));
 
@@ -35,7 +35,7 @@ program
   .description('show what will happen for a given path')
   .action(function(dir) {
     process.stdcmd = process.stderr;
-    avn.hooks.after(path.resolve(dir),
+    avn.hooks.chpwd(path.resolve(dir),
       { verbose: program.verbose }).done();
   });
 

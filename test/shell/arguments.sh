@@ -19,7 +19,7 @@ source "${__testdir}/../bin/avn.sh"
 # change to a directory where the after hook will be called
 cd "../v0.11"
 __written=`echo $(cat ${__tmp})`
-assertEqual "after-cd --color ${__testdir}/fixtures/v0.11 ../v0.11" "${__written}" || exit 1
+assertEqual "chpwd --color ${__testdir}/fixtures/v0.11 ../v0.11" "${__written}" || exit 1
 
 # change to a directory where the after hook will not be called
 echo "" > ${__tmp} # clear output

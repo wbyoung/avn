@@ -48,7 +48,7 @@ describe('avn', function() {
     describe('after', function() {
       it('does nothing when no version file exists', function(done) {
         var std = capture();
-        avn.hooks.after(example('none')).fin(std.restore).done(function() {
+        avn.hooks.chpwd(example('none')).fin(std.restore).done(function() {
           expect(plugin.match).to.not.have.been.called;
           expect(std.err).to.be.empty;
           expect(std.out).to.be.empty;
@@ -59,7 +59,7 @@ describe('avn', function() {
 
       it('calls plugin match function', function(done) {
         var std = capture();
-        avn.hooks.after(example('v0.10.26')).fin(std.restore).done(function() {
+        avn.hooks.chpwd(example('v0.10.26')).fin(std.restore).done(function() {
           expect(plugin.match).to.have.been.calledWith('0.10.26');
           expect(std.err).to.be.empty;
           expect(std.out).to.eql('avn using node 0.10.26 (test v0.10.26)\n');
@@ -71,7 +71,7 @@ describe('avn', function() {
       it('fails if plugin returns undefined', function(done) {
         var std = capture();
         plugin = { name: 'test', match: function() {} };
-        avn.hooks.after(example('v0.10.26')).fin(std.restore).done(function() {
+        avn.hooks.chpwd(example('v0.10.26')).fin(std.restore).done(function() {
           expect(std.out).to.be.empty;
           expect(std.cmd).to.be.empty;
           expect(std.err).to.eql('avn could not activate node 0.10.26\n');
@@ -85,7 +85,7 @@ describe('avn', function() {
           name: 'test',
           match: function() { throw new Error('test'); }
         };
-        avn.hooks.after(example('v0.10.26')).fin(std.restore).done(function() {
+        avn.hooks.chpwd(example('v0.10.26')).fin(std.restore).done(function() {
           expect(std.out).to.be.empty;
           expect(std.cmd).to.be.empty;
           expect(std.err).to.eql('avn could not activate node 0.10.26\n');
@@ -99,7 +99,7 @@ describe('avn', function() {
           name: 'test',
           match: function() { throw new Error('test'); }
         };
-        avn.hooks.after(example('v0.10.26'), { verbose: true }).fin(std.restore).done(function() {
+        avn.hooks.chpwd(example('v0.10.26'), { verbose: true }).fin(std.restore).done(function() {
           expect(std.out).to.be.empty;
           expect(std.cmd).to.be.empty;
           expect(std.err).to.eql('avn could not activate node 0.10.26\n' +
@@ -114,7 +114,7 @@ describe('avn', function() {
           name: 'test',
           match: function() { throw 'test'; }
         };
-        avn.hooks.after(example('v0.10.26'), { verbose: true }).fin(std.restore).done(function() {
+        avn.hooks.chpwd(example('v0.10.26'), { verbose: true }).fin(std.restore).done(function() {
           expect(std.out).to.be.empty;
           expect(std.cmd).to.be.empty;
           expect(std.err).to.eql('avn could not activate node 0.10.26\n' +
@@ -129,7 +129,7 @@ describe('avn', function() {
           name: 'test',
           match: function() { return { version: 'n' }; }
         };
-        avn.hooks.after(example('v0.10.26'), { verbose: true }).fin(std.restore).done(function() {
+        avn.hooks.chpwd(example('v0.10.26'), { verbose: true }).fin(std.restore).done(function() {
           expect(std.out).to.be.empty;
           expect(std.cmd).to.be.empty;
           expect(std.err).to.eql('avn could not activate node 0.10.26\n' +
@@ -144,7 +144,7 @@ describe('avn', function() {
           name: 'test',
           match: function() { return { command: 'activate n' }; }
         };
-        avn.hooks.after(example('v0.10.26'), { verbose: true }).fin(std.restore).done(function() {
+        avn.hooks.chpwd(example('v0.10.26'), { verbose: true }).fin(std.restore).done(function() {
           expect(std.out).to.be.empty;
           expect(std.cmd).to.be.empty;
           expect(std.err).to.eql('avn could not activate node 0.10.26\n' +
@@ -155,7 +155,7 @@ describe('avn', function() {
 
       it('requires stdcmd stream to work', function(done) {
         var std = capture(['out', 'err']);
-        avn.hooks.after(example('v0.10.26'))
+        avn.hooks.chpwd(example('v0.10.26'))
         .fail(function(e) {
           expect(e.message).to.match(/^cannot (call|read) (method|property) \'write\' of undefined$/i);
         })

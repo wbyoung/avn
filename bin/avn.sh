@@ -18,9 +18,9 @@ function __avn_eval() {
   fi
 }
 
-function __avn_after_cd() {
+function __avn_chpwd() {
   [[ -f ".node-version" ]] &&
-    __avn_eval after-cd "$PWD" "$@" || true
+    __avn_eval chpwd "$PWD" "$@" || true
 }
 
 export PATH="$HOME/.avn/bin:$PATH"
@@ -33,8 +33,8 @@ export PATH="$HOME/.avn/bin:$PATH"
 export -a chpwd_functions;
 
 # add avn functionality
-[[ " ${chpwd_functions[*]} " == *" __avn_after_cd "* ]] ||
-  chpwd_functions+=(__avn_after_cd)
+[[ " ${chpwd_functions[*]} " == *" __avn_chpwd "* ]] ||
+  chpwd_functions+=(__avn_chpwd)
 
 # support rvm until chpwd_functions are integrated
 [[ " ${chpwd_functions[*]} " == *" __rvm"* ]] ||

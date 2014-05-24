@@ -21,6 +21,6 @@ __written=`echo $(cat ${__tmp})`
 
 assertEqual `pwd` "${__testdir}/fixtures/v0.11.13" || exit 1
 assertEqual "${AVN_LAST_DIR}" "${__testdir}/fixtures/v0.11.13" || exit 1
-assertEqual "after-cd" "${__written}" || exit 1
+assertEqual "chpwd" "${__written}" || exit 1
 
 rm ${__tmp}
