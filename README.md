@@ -1,6 +1,6 @@
 # avn
 
-[![NPM version][npm-image]][npm-url] [![Build status][travis-image]][travis-url] [![Code Climate][codeclimate-image]][codeclimate-url] [![Coverage Status][coverage-image]][coverage-url] [![Dependencies][david-image]][david-url]
+[![NPM version][npm-image]][npm-url] [![Build status][travis-image]][travis-url] [![Code Climate][codeclimate-image]][codeclimate-url] [![Coverage Status][coverage-image]][coverage-url] [![Dependencies][david-image]][david-url] [![devDependencies][david-dev-image]][david-dev-url]
 
 Automatic Version Switching for Node.js
 
@@ -66,6 +66,8 @@ This project is distributed under the MIT license.
 [coverage-url]: https://coveralls.io/r/wbyoung/avn
 [david-image]: https://david-dm.org/wbyoung/avn.png?theme=shields.io
 [david-url]: https://david-dm.org/wbyoung/avn
+[david-dev-image]: https://david-dm.org/wbyoung/avn/dev-status.png?theme=shields.io
+[david-dev-url]: https://david-dm.org/wbyoung/avn#info=devDependencies
 
 [issues]: https://github.com/wbyoung/avn/issues
 [nvm]: https://github.com/creationix/nvm
