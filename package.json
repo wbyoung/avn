@@ -34,18 +34,18 @@
     "chalk": "^0.4.0",
     "commander": "^2.2.0",
     "lodash": "^2.4.1",
-    "npm": "^1.4.9",
+    "npm": "^1.4.15",
     "q": "^1.0.1"
   },
   "devDependencies": {
-    "mocha": "^1.18.2",
+    "mocha": "^1.20.1",
     "chai": "^1.9.1",
-    "should": "^3.3.1",
-    "sinon": "^1.9.1",
+    "should": "^4.0.4",
+    "sinon": "^1.10.2",
     "sinon-chai": "^2.5.0",
-    "concat-stream": "^1.4.5",
-    "temp": "^0.7.0",
-    "istanbul": "^0.2.8",
+    "concat-stream": "^1.4.6",
+    "temp": "^0.8.0",
+    "istanbul": "^0.2.11",
     "coveralls": "^2.10.0"
   }
 }
