@@ -56,18 +56,18 @@ your current node version.
 This project is distributed under the MIT license.
 
 
-[travis-image]: http://img.shields.io/travis/wbyoung/azul.svg?style=flat
-[travis-url]: http://travis-ci.org/wbyoung/azul
-[npm-image]: http://img.shields.io/npm/v/azul.svg?style=flat
-[npm-url]: https://npmjs.org/package/azul
-[codeclimate-image]: http://img.shields.io/codeclimate/github/wbyoung/azul.svg?style=flat
-[codeclimate-url]: https://codeclimate.com/github/wbyoung/azul
-[coverage-image]: http://img.shields.io/coveralls/wbyoung/azul.svg?style=flat
-[coverage-url]: https://coveralls.io/r/wbyoung/azul
-[david-image]: http://img.shields.io/david/wbyoung/azul.svg?style=flat
-[david-url]: https://david-dm.org/wbyoung/azul
-[david-dev-image]: http://img.shields.io/david/dev/wbyoung/azul.svg?style=flat
-[david-dev-url]: https://david-dm.org/wbyoung/azul#info=devDependencies
+[travis-image]: http://img.shields.io/travis/wbyoung/avn.svg?style=flat
+[travis-url]: http://travis-ci.org/wbyoung/avn
+[npm-image]: http://img.shields.io/npm/v/avn.svg?style=flat
+[npm-url]: https://npmjs.org/package/avn
+[codeclimate-image]: http://img.shields.io/codeclimate/github/wbyoung/avn.svg?style=flat
+[codeclimate-url]: https://codeclimate.com/github/wbyoung/avn
+[coverage-image]: http://img.shields.io/coveralls/wbyoung/avn.svg?style=flat
+[coverage-url]: https://coveralls.io/r/wbyoung/avn
+[david-image]: http://img.shields.io/david/wbyoung/avn.svg?style=flat
+[david-url]: https://david-dm.org/wbyoung/avn
+[david-dev-image]: http://img.shields.io/david/dev/wbyoung/avn.svg?style=flat
+[david-dev-url]: https://david-dm.org/wbyoung/avn#info=devDependencies
 
 [issues]: https://github.com/wbyoung/avn/issues
 [nvm]: https://github.com/creationix/nvm
