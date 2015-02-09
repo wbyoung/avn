@@ -191,7 +191,7 @@ describe('avn setup', function() {
     })
     .fin(std.restore)
     .done(function() {
-      var src = path.resolve(path.join(__dirname, '..'));
+      var src = path.resolve(path.join(__dirname, '..')) + '/';
       var dst = path.join(process.env.HOME, '.avn');
       expect(spawn).to.have.been.calledOnce;
       expect(spawn).to.have.been.calledWith('/bin/cp', ['-RL', src, dst]);
@@ -212,11 +212,11 @@ describe('avn setup', function() {
     })
     .fin(std.restore)
     .done(function() {
-      var src = path.resolve(path.join(__dirname, '..'));
+      var src = path.resolve(path.join(__dirname, '..')) + '/';
       var dst = path.join(process.env.HOME, '.avn');
       expect(spawn).to.be.calledTwice;
       expect(spawn).to.have.been.calledWith('/bin/cp', ['-RL', src, dst]);
-      src = path.resolve(path.join(__dirname, 'fixtures/node_install/lib/node_modules/avn-plugin'));
+      src = path.resolve(path.join(__dirname, 'fixtures/node_install/lib/node_modules/avn-plugin')) + '/';
       dst = path.join(process.env.HOME, '.avn/plugins/avn-plugin');
       expect(spawn).to.have.been.calledWith('/bin/cp', ['-RL', src, dst]);
       expect(std.out).to.eql('avn: installation complete\n' +
@@ -239,7 +239,7 @@ describe('avn setup', function() {
     })
     .fin(std.restore)
     .done(function() {
-      var src = path.resolve(path.join(__dirname, '..'));
+      var src = path.resolve(path.join(__dirname, '..')) + '/';
       var dst = path.join(process.env.HOME, '.avn');
       expect(spawn).to.have.been.calledOnce;
       expect(spawn).to.have.been.calledWith('/bin/cp', ['-RL', src, dst]);
@@ -260,7 +260,7 @@ describe('avn setup', function() {
       catch(e) {}
     })
     .fin(std.restore).done(function() {
-      var src = path.resolve(path.join(__dirname, '..'));
+      var src = path.resolve(path.join(__dirname, '..')) + '/';
       var dst = path.join(process.env.HOME, '.avn');
       expect(spawn).to.have.been.calledOnce;
       expect(spawn).to.have.been.calledWith('/bin/cp', ['-RL', src, dst]);
