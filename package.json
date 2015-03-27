@@ -40,7 +40,6 @@
   "devDependencies": {
     "mocha": "^2.0.1",
     "chai": "^1.9.1",
-    "should": "^4.0.4",
     "sinon": "^1.10.2",
     "sinon-chai": "^2.5.0",
     "concat-stream": "^1.4.6",
