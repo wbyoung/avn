@@ -25,6 +25,13 @@ We don't recommend using both tools to manage your versions of node, but feel
 free to install both plugins. They won't conflict with each other.
 
 
+## io.js
+
+Plugins support a consistent syntax in the `.node-version` file for specifying
+the use of [io.js][io.js] rather than node. Simply add an `iojs` prefix. For
+instance: `iojs-1.4` or `iojs-v1.4`.
+
+
 ## Todo List
 
  * Support switching back to the previous version of node that you were using
@@ -74,3 +81,4 @@ This project is distributed under the MIT license.
 [n]: https://github.com/visionmedia/n
 [avn-nvm]: https://github.com/wbyoung/avn-nvm
 [avn-n]: https://github.com/wbyoung/avn-n
+[io.js]: https://iojs.org/
