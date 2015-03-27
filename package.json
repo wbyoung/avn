@@ -33,7 +33,7 @@
   "dependencies": {
     "chalk": "^0.5.1",
     "commander": "^2.2.0",
-    "lodash": "^2.4.1",
+    "lodash": "^3.6.0",
     "npm": "^1.4.15",
     "q": "^1.0.1"
   },
