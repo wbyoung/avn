@@ -38,13 +38,13 @@
     "q": "^1.0.1"
   },
   "devDependencies": {
-    "mocha": "^2.0.1",
-    "chai": "^1.9.1",
-    "sinon": "^1.10.2",
-    "sinon-chai": "^2.5.0",
+    "chai": "^2.2.0",
     "concat-stream": "^1.4.6",
-    "temp": "^0.8.0",
+    "coveralls": "^2.10.0",
     "istanbul": "^0.3.4",
-    "coveralls": "^2.10.0"
+    "mocha": "^2.0.1",
+    "sinon": "^1.10.2",
+    "sinon-chai": "^2.7.0",
+    "temp": "^0.8.0"
   }
 }
