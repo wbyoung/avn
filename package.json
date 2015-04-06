@@ -1,6 +1,6 @@
 {
   "name": "avn",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Automatic Node Version Switching",
   "homepage": "https://github.com/wbyoung/avn",
   "bugs": {
