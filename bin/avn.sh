@@ -25,6 +25,8 @@ function __avn_chpwd() {
 
 export PATH="$HOME/.avn/bin:$PATH"
 
+__avn_chpwd # run chpwd once since the shell was just loaded
+
 
 ##
 # Hooks that will happen after the working directory is changed
