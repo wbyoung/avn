@@ -11,7 +11,8 @@
     "avn": "./bin-public/avn"
   },
   "scripts": {
-    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report $(if [ \"$TRAVIS\" ]; then echo lcovonly; else echo html; fi) -- && if [ \"$TRAVIS\" ]; then cat ./coverage/lcov.info | ./node_modules/.bin/coveralls; fi"
+    "test": "istanbul cover node_modules/.bin/_mocha --report html --",
+    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly --"
   },
   "repository": {
     "type": "git",
