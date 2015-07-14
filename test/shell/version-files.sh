@@ -16,11 +16,12 @@ function _avn() {
 
 source "${__shelldir}/helpers.sh"
 source "${__testdir}/../bin/avn.sh"
+__avn_files+=(".iojs-version")
 
 # change to a directory where the after hook will be called
-cd "../v0.11"
+cd "../iojs-v1.1"
 __written=`echo $(cat ${__tmp})`
-assertEqual "chpwd --color ${__testdir}/fixtures/v0.11 .node-version" "${__written}" || exit 1
+assertEqual "chpwd --color ${__testdir}/fixtures/iojs-v1.1 .iojs-version" "${__written}" || exit 1
 
 # change to a directory where the after hook will not be called
 echo "" > ${__tmp} # clear output

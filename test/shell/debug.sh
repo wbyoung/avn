@@ -17,15 +17,11 @@ function _avn() {
 source "${__shelldir}/helpers.sh"
 source "${__testdir}/../bin/avn.sh"
 
-# change to a directory where the after hook will be called
-cd "../v0.11"
-__written=`echo $(cat ${__tmp})`
-assertEqual "chpwd --color ${__testdir}/fixtures/v0.11 .node-version" "${__written}" || exit 1
-
-# change to a directory where the after hook will not be called
+# change to a directory where we can debug
+cd "../v0.10.11"
 echo "" > ${__tmp} # clear output
-cd "../../fixtures/home"
+__avn_debug
 __written=`echo $(cat ${__tmp})`
-assertEqual "" "${__written}" || exit 1
+assertEqual "explain -v ${__testdir}/fixtures/v0.10.11 .node-version" "${__written}" || exit 1
 
 rm ${__tmp}

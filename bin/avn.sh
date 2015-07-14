@@ -2,6 +2,21 @@
 # Functionality specific to avn
 #
 
+export PATH="$HOME/.avn/bin:$PATH"
+
+# plugins may add to this, it's an array of version file names
+export -a __avn_files=(".node-version")
+
+# the full path to the active version file, /path/to/.node-version
+export __avn_active_file
+
+# load each plugin
+for plugin in $HOME/.avn/plugins/*
+do
+  [[ -f "$plugin/load.sh" ]] && . "$plugin/load.sh"
+done
+
+# run _avn & eval results written to fd 3
 function __avn_eval() {
   typeset cmd actions actions_result options
 
@@ -18,12 +33,47 @@ function __avn_eval() {
   fi
 }
 
+# avn chpwd hook
 function __avn_chpwd() {
-  [[ -f ".node-version" ]] &&
-    __avn_eval chpwd "$PWD" "$@" || true
+  local file=$(__avn_find_file)
+  local dir=${file%/*}
+  local name=${file##*/}
+
+  [[ -n "$file" ]] && [[ "$file" != "$__avn_active_file" ]] &&
+    __avn_eval chpwd "$dir" "$name"
+
+  __avn_active_file=$file
+
+  true
 }
 
-export PATH="$HOME/.avn/bin:$PATH"
+# debug that includes file lookup
+function __avn_debug() {
+  local file=$(__avn_find_file)
+  local dir=${file%/*}
+  local name=${file##*/}
+
+  _avn explain -v "$dir" "$name"
+}
+
+# find version specification file
+function __avn_find_file() {
+  local found
+  local dir=$PWD
+  while [[ -z "$found" ]] && [[ "$dir" != "" ]]; do
+    for file in "${__avn_files[@]}"; do
+      if [[ -f "$dir/$file" ]]; then
+        found="$dir/$file"
+        break
+      fi
+    done
+    if [[ "$dir" == "$HOME" ]]; then
+      break
+    fi
+    dir=${dir%/*}
+  done
+  echo $found
+}
 
 __avn_chpwd # run chpwd once since the shell was just loaded
 

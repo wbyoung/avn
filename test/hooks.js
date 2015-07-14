@@ -12,9 +12,11 @@ var chai = require('chai');
 var expect = chai.expect;
 chai.use(require('sinon-chai'));
 
+var cwd;
 var capture = require('./helpers').capture;
-var example = function(name) {
-  return path.join(__dirname, 'fixtures', name);
+var setupExample = function(name) {
+  cwd = path.join(__dirname, 'fixtures', name);
+  return cwd;
 };
 
 describe('avn', function() {
@@ -29,11 +31,15 @@ describe('avn', function() {
       plugins.all = function() {
         return [plugin];
       };
+      sinon.stub(process, 'cwd', function() {
+        return cwd;
+      });
     });
 
     after(function() {
       chalk.enabled = chalkEnabled;
       plugins.all = all;
+      process.cwd.restore();
     });
 
     beforeEach(function() {
@@ -48,7 +54,8 @@ describe('avn', function() {
     describe('after', function() {
       it('does nothing when no version file exists', function(done) {
         var std = capture();
-        avn.hooks.chpwd(example('none')).fin(std.restore).done(function() {
+        setupExample('none');
+        avn.hooks.chpwd(cwd).fin(std.restore).done(function() {
           expect(plugin.match).to.not.have.been.called;
           expect(std.err).to.be.empty;
           expect(std.out).to.be.empty;
@@ -59,11 +66,24 @@ describe('avn', function() {
 
       it('calls plugin match function', function(done) {
         var std = capture();
-        avn.hooks.chpwd(example('v0.10.26')).fin(std.restore).done(function() {
+        setupExample('v0.10.26');
+        avn.hooks.chpwd(cwd).fin(std.restore).done(function() {
           expect(plugin.match).to.have.been.calledWith('0.10.26');
           expect(std.err).to.be.empty;
-          expect(std.out).to.eql('avn using node 0.10.26 (test v0.10.26)\n');
+          expect(std.out).to.eql('avn activated 0.10.26 (test v0.10.26)\n');
           expect(std.cmd).to.eql('node-version-tool activate 0.10.26\n');
+          done();
+        });
+      });
+
+      it('accepts version file', function(done) {
+        var std = capture();
+        setupExample('iojs-v1.1');
+        avn.hooks.chpwd(cwd, '.iojs-version').fin(std.restore).done(function() {
+          expect(plugin.match).to.have.been.calledWith('iojs-1.1');
+          expect(std.err).to.be.empty;
+          expect(std.out).to.eql('avn activated iojs-1.1 via .iojs-version (test viojs-1.1)\n');
+          expect(std.cmd).to.eql('node-version-tool activate iojs-1.1\n');
           done();
         });
       });
@@ -71,7 +91,8 @@ describe('avn', function() {
       it('fails if plugin returns undefined', function(done) {
         var std = capture();
         plugin = { name: 'test', match: function() {} };
-        avn.hooks.chpwd(example('v0.10.26')).fin(std.restore).done(function() {
+        setupExample('v0.10.26');
+        avn.hooks.chpwd(cwd).fin(std.restore).done(function() {
           expect(std.out).to.be.empty;
           expect(std.cmd).to.be.empty;
           expect(std.err).to.eql('avn could not activate node 0.10.26\n');
@@ -85,7 +106,8 @@ describe('avn', function() {
           name: 'test',
           match: function() { throw new Error('test'); }
         };
-        avn.hooks.chpwd(example('v0.10.26')).fin(std.restore).done(function() {
+        setupExample('v0.10.26');
+        avn.hooks.chpwd(cwd).fin(std.restore).done(function() {
           expect(std.out).to.be.empty;
           expect(std.cmd).to.be.empty;
           expect(std.err).to.eql('avn could not activate node 0.10.26\n');
@@ -99,7 +121,8 @@ describe('avn', function() {
           name: 'test',
           match: function() { throw new Error('test'); }
         };
-        avn.hooks.chpwd(example('v0.10.26'), { verbose: true }).fin(std.restore).done(function() {
+        setupExample('v0.10.26');
+        avn.hooks.chpwd(cwd, { verbose: true }).fin(std.restore).done(function() {
           expect(std.out).to.be.empty;
           expect(std.cmd).to.be.empty;
           expect(std.err).to.eql('avn could not activate node 0.10.26\n' +
@@ -114,7 +137,8 @@ describe('avn', function() {
           name: 'test',
           match: function() { throw 'test'; }
         };
-        avn.hooks.chpwd(example('v0.10.26'), { verbose: true }).fin(std.restore).done(function() {
+        setupExample('v0.10.26');
+        avn.hooks.chpwd(cwd, { verbose: true }).fin(std.restore).done(function() {
           expect(std.out).to.be.empty;
           expect(std.cmd).to.be.empty;
           expect(std.err).to.eql('avn could not activate node 0.10.26\n' +
@@ -129,7 +153,8 @@ describe('avn', function() {
           name: 'test',
           match: function() { return { version: 'n' }; }
         };
-        avn.hooks.chpwd(example('v0.10.26'), { verbose: true }).fin(std.restore).done(function() {
+        setupExample('v0.10.26');
+        avn.hooks.chpwd(cwd, { verbose: true }).fin(std.restore).done(function() {
           expect(std.out).to.be.empty;
           expect(std.cmd).to.be.empty;
           expect(std.err).to.eql('avn could not activate node 0.10.26\n' +
@@ -144,7 +169,8 @@ describe('avn', function() {
           name: 'test',
           match: function() { return { command: 'activate n' }; }
         };
-        avn.hooks.chpwd(example('v0.10.26'), { verbose: true }).fin(std.restore).done(function() {
+        setupExample('v0.10.26');
+        avn.hooks.chpwd(cwd, { verbose: true }).fin(std.restore).done(function() {
           expect(std.out).to.be.empty;
           expect(std.cmd).to.be.empty;
           expect(std.err).to.eql('avn could not activate node 0.10.26\n' +
@@ -155,7 +181,8 @@ describe('avn', function() {
 
       it('requires stdcmd stream to work', function(done) {
         var std = capture(['out', 'err']);
-        avn.hooks.chpwd(example('v0.10.26'))
+        setupExample('v0.10.26');
+        avn.hooks.chpwd(cwd)
         .fail(function(e) {
           expect(e.message).to.match(/^cannot (call|read) (method|property) \'write\' of undefined$/i);
         })

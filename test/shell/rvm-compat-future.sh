@@ -5,6 +5,7 @@ typeset __shelldir=`dirname "${__abspath}"`
 typeset __testdir=`dirname "${__shelldir}"`
 typeset __tmp=`mktemp /tmp/avn-test.XXXXXX`
 typeset __written=""
+export HOME="${__testdir}/fixtures"
 
 # start in a known location
 cd "${__testdir}/fixtures/home"

@@ -23,19 +23,19 @@ program
   .option('-c --color', 'use colors (automatic for some commands)');
 
 program
-  .command('chpwd <path> [cd-arg]')
+  .command('chpwd <path> [avnvc]')
   .description('eval actions for chpwd')
-  .action(hook(function(dir) {
-    avn.hooks.chpwd(path.resolve(dir),
+  .action(hook(function(dir, versionFile) {
+    avn.hooks.chpwd(path.resolve(dir), versionFile,
       { verbose: program.verbose }).done();
   }));
 
 program
-  .command('explain <path>')
+  .command('explain <path> [avnvc]')
   .description('show what will happen for a given path')
-  .action(function(dir) {
+  .action(function(dir, versionFile) {
     process.stdcmd = process.stderr;
-    avn.hooks.chpwd(path.resolve(dir),
+    avn.hooks.chpwd(path.resolve(dir), versionFile,
       { verbose: program.verbose }).done();
   });
 

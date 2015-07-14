@@ -46,7 +46,7 @@ If you're having a problem, please `cd` to the directory where your
 `.node-version` file is stored and run (note the underscore prefix):
 
 ```bash
-_avn explain -v .
+__avn_debug
 ```
 
 Create an [issue][issues] and include the output.

@@ -18,13 +18,13 @@ source "${__shelldir}/helpers.sh"
 source "${__testdir}/../bin/avn.sh"
 
 # change to a directory where the after hook will be called
-cd "../v0.11"
+cd "../v0.10.11/lib"
 __written=`echo $(cat ${__tmp})`
-assertEqual "chpwd --color ${__testdir}/fixtures/v0.11 .node-version" "${__written}" || exit 1
+assertEqual "chpwd --color ${__testdir}/fixtures/v0.10.11 .node-version" "${__written}" || exit 1
 
 # change to a directory where the after hook will not be called
 echo "" > ${__tmp} # clear output
-cd "../../fixtures/home"
+cd "../../../fixtures/home"
 __written=`echo $(cat ${__tmp})`
 assertEqual "" "${__written}" || exit 1
 
