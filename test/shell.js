@@ -1,22 +1,17 @@
-/* jshint expr: true */
-/* global before, beforeEach, after */
+'use strict';
 
 var Promise = require('bluebird');
-var avn = require('..');
 var path = require('path');
-var plugins = require('../lib/plugins');
 var util = require('util');
 var fs = require('fs');
-var child_process = require('child_process');
-var concat = require('concat-stream');
+var spawn = require('child_process').spawn;
 
 var chai = require('chai');
-var expect = chai.expect;
 chai.use(require('sinon-chai'));
 
 var runScript = function(script) {
   return new Promise(function(resolve, reject) {
-    var cmd = child_process.spawn(script, [], { stdio: 'inherit' });
+    var cmd = spawn(script, [], { stdio: 'inherit' });
     cmd.on('close', function(code) {
       if (code === 0) { resolve(code); }
       else { reject(code); }

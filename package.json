@@ -11,8 +11,8 @@
     "avn": "./bin-public/avn"
   },
   "scripts": {
-    "test": "istanbul cover node_modules/.bin/_mocha --report html --",
-    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly --"
+    "test": "jshint . && jscs . && istanbul cover node_modules/.bin/_mocha --report html --",
+    "test-travis": "jshint . && jscs . && istanbul cover node_modules/.bin/_mocha --report lcovonly --"
   },
   "repository": {
     "type": "git",
@@ -43,6 +43,9 @@
     "concat-stream": "^1.4.6",
     "coveralls": "^2.10.0",
     "istanbul": "^0.3.4",
+    "jscs": "^1.13.1",
+    "jscs-jsdoc": "^1.1.0",
+    "jshint": "^2.8.0",
     "mocha": "^2.0.1",
     "sinon": "^1.10.2",
     "sinon-chai": "^2.8.0",

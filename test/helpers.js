@@ -1,3 +1,4 @@
+'use strict';
 
 exports.capture = function() {
   var args = Array.prototype.slice.call(arguments);

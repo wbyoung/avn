@@ -1,7 +1,5 @@
-/* jshint expr: true */
-/* global before, beforeEach, after */
+'use strict';
 
-var avn = require('..');
 var path = require('path');
 var plugins = require('../lib/plugins');
 var _ = require('lodash');
@@ -13,7 +11,6 @@ chai.use(require('sinon-chai'));
 describe('avn plugins', function() {
   var home = process.env.HOME;
   var nodePath = process.env.NODE_PATH;
-  var all = plugins.all();
 
   beforeEach(function() {
     process.env.HOME = path.resolve(path.join(__dirname, 'fixtures/home'));

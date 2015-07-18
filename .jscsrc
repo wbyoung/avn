@@ -1,0 +1,47 @@
+{
+  "preset": "airbnb",
+  "excludeFiles": ["node_modules/**", "coverage/**", "test/**"],
+  "errorFilter": "./.jscsfilter",
+  "disallowEmptyBlocks": null,
+  "disallowFunctionDeclarations": true,
+  "disallowKeywordsOnNewLine": null,
+  "disallowMultipleLineBreaks": null,
+  "disallowMultipleVarDecl": "exceptUndefined",
+  "disallowSpacesInAnonymousFunctionExpression":  {
+    "beforeOpeningRoundBrace": true
+  },
+  "disallowSpacesInFunctionExpression": {
+    "beforeOpeningRoundBrace": true
+  },
+  "disallowTrailingComma": null,
+  "maximumLineLength": 80,
+  "maximumNumberOfLines": 1000,
+  "requireBlocksOnNewline": 2,
+  "requireKeywordsOnNewLine": ["else"],
+  "requirePaddingNewLinesAfterBlocks": null,
+  "requirePaddingNewLinesAfterUseStrict": true,
+  "requirePaddingNewLinesBeforeExport": true,
+  "requireSemicolons": true,
+  "requireSpaceAfterLineComment": true,
+  "requireSpacesInsideObjectBrackets": "all",
+  "requireTrailingComma": {
+    "ignoreSingleLine": true
+  },
+  "safeContextKeyword": "self",
+  "plugins": [
+    "jscs-jsdoc"
+  ],
+  "jsDoc": {
+    "checkAnnotations": {
+      "preset": "jsdoc3",
+      "extra": {
+        "scope": "some"
+      }
+    },
+    "checkReturnTypes": true,
+    "checkTypes": "capitalizedNativeCase",
+    "enforceExistence": true,
+    "requireNewlineAfterDescription": true,
+    "requireParamTypes": true
+  }
+}

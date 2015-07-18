@@ -1,11 +1,9 @@
-/* jshint expr: true */
-/* global before, beforeEach, after */
+'use strict';
 
 var avn = require('..');
 var path = require('path');
 var chalk = require('chalk');
 var plugins = require('../lib/plugins');
-var concat = require('concat-stream');
 
 var sinon = require('sinon');
 var chai = require('chai');

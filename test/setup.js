@@ -1,9 +1,6 @@
-/* jshint expr: true */
-/* global before, beforeEach, after */
+'use strict';
 
-var _ = require('lodash');
 var Promise = require('bluebird');
-var avn = require('..');
 var npm = Promise.promisifyAll(require('npm'));
 var path = require('path');
 var chalk = require('chalk');
@@ -11,7 +8,7 @@ var setup = require('../lib/setup');
 var install = require('../lib/setup/install').all;
 var updateProfile = require('../lib/setup/profile').update;
 var updateConfigurationFile = require('../lib/setup/config').update;
-var child_process = require('child_process');
+var childProcess = require('child_process');
 var temp = require('temp').track();
 var fs = Promise.promisifyAll(require('fs'));
 
@@ -20,9 +17,9 @@ var chai = require('chai');
 var expect = chai.expect;
 chai.use(require('sinon-chai'));
 
-var spawn = child_process.spawn;
+var spawn = childProcess.spawn;
 var stubSpawn = function() {
-  return sinon.stub(child_process, 'spawn', function() {
+  return sinon.stub(childProcess, 'spawn', function() {
     var args = Array.prototype.slice.call(arguments);
     var cmdArgs = args.pop().slice();
     var src = path.join(__dirname, '..', 'plugins');
@@ -45,7 +42,7 @@ var fillTemporaryHome = function(temporaryHome, source) {
   });
 };
 
-var setupNPM = function(opts) {
+var setupNPM = function() {
   var prefix = path.resolve(path.join(__dirname, '../test/fixtures/node_install'));
   return npm.loadAsync({ global: true }).then(function() {
     npm.prefix = prefix;
@@ -124,7 +121,7 @@ describe('avn setup', function() {
     var profile = path.join(temporaryHome, '.bash_profile');
     var std = capture(['out', 'err']);
     return fillTemporaryHome(temporaryHome, 'home_with_bash_profile')
-    .then(function() { return fs.chmodAsync(profile, 0400); })
+    .then(function() { return fs.chmodAsync(profile, '0400'); })
     .then(function() { return updateProfile(); })
     .then(function() { throw new Error('Expected error thrown'); }, function(e) {
       expect(std.out).to.eql('');
@@ -360,7 +357,7 @@ describe('avn setup', function() {
     var spawn = stubSpawn();
     var std = capture(['out', 'err']);
     return fillTemporaryHome(temporaryHome, 'home_with_bash_profile').then(setupNPM)
-    .then(function() { return fs.chmodAsync(profile, 0400); })
+    .then(function() { return fs.chmodAsync(profile, '0400'); })
     .then(function() { npm.prefix = '/path/to/nowhere'; })
     .then(function() { return setup(); })
     .finally(function() {

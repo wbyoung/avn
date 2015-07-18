@@ -1,0 +1,12 @@
+'use strict';
+
+var _ = require('lodash');
+
+module.exports = function(e) {
+  var report = true;
+  var isTestFile = _.startsWith(e.filename, './test/');
+  if (isTestFile && e.message === 'jsdoc definition required') {
+    report = false;
+  }
+  return report;
+};
