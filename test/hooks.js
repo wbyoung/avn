@@ -120,21 +120,6 @@ describe('avn', function() {
         });
       });
 
-      it('handles plugin throwing strings', function() {
-        var std = capture();
-        plugin = {
-          name: 'test',
-          match: function() { throw 'test'; }
-        };
-        setupExample('v0.10.26');
-        return avn.hooks.chpwd(cwd, { verbose: true }).finally(std.restore).then(function() {
-          expect(std.out).to.be.empty;
-          expect(std.cmd).to.be.empty;
-          expect(std.err).to.eql('avn could not activate node 0.10.26\n' +
-            'error: no plugin passed predicate\n  test: test\n');
-        });
-      });
-
       it('expects plugins to return object containing command', function() {
         var std = capture();
         plugin = {
