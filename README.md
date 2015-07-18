@@ -43,7 +43,7 @@ Pull requests are welcome!
 ## Troubleshooting
 
 If you're having a problem, please `cd` to the directory where your
-`.node-version` file is stored and run (note the underscore prefix):
+`.node-version` file is stored and run (note the double-underscore prefix):
 
 ```bash
 __avn_debug
