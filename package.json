@@ -36,10 +36,12 @@
     "chalk": "^1.0.0",
     "commander": "^2.2.0",
     "lodash": "^3.10.0",
+    "mz": "^2.0.0",
     "npm": "^2.7.4"
   },
   "devDependencies": {
     "chai": "^3.0.0",
+    "chai-as-promised": "^5.1.0",
     "concat-stream": "^1.4.6",
     "coveralls": "^2.10.0",
     "istanbul": "^0.3.4",

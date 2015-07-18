@@ -1,14 +1,12 @@
 'use strict';
 
+require('./helpers');
+
+var Promise = require('bluebird');
 var avn = require('..');
 var path = require('path');
 var chalk = require('chalk');
 var plugins = require('../lib/plugins');
-
-var sinon = require('sinon');
-var chai = require('chai');
-var expect = chai.expect;
-chai.use(require('sinon-chai'));
 
 var cwd;
 var capture = require('./helpers').capture;
@@ -20,15 +18,14 @@ var setupExample = function(name) {
 describe('avn', function() {
 
   describe('hooks', function() {
-    var all = plugins.all;
     var chalkEnabled = chalk.enabled;
     var plugin;
 
     before(function() {
       chalk.enabled = false;
-      plugins.all = function() {
-        return [plugin];
-      };
+      sinon.stub(plugins, 'all', function() {
+        return Promise.resolve([plugin]);
+      });
       sinon.stub(process, 'cwd', function() {
         return cwd;
       });
@@ -36,7 +33,7 @@ describe('avn', function() {
 
     after(function() {
       chalk.enabled = chalkEnabled;
-      plugins.all = all;
+      plugins.all.restore();
       process.cwd.restore();
     });
 

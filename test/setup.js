@@ -1,5 +1,7 @@
 'use strict';
 
+require('./helpers');
+
 var Promise = require('bluebird');
 var npm = Promise.promisifyAll(require('npm'));
 var path = require('path');
@@ -10,12 +12,7 @@ var updateProfile = require('../lib/setup/profile').update;
 var updateConfigurationFile = require('../lib/setup/config').update;
 var childProcess = require('child_process');
 var temp = require('temp').track();
-var fs = Promise.promisifyAll(require('fs'));
-
-var sinon = require('sinon');
-var chai = require('chai');
-var expect = chai.expect;
-chai.use(require('sinon-chai'));
+var fs = require('mz/fs');
 
 var spawn = childProcess.spawn;
 var stubSpawn = function() {
@@ -121,7 +118,7 @@ describe('avn setup', function() {
     var profile = path.join(temporaryHome, '.bash_profile');
     var std = capture(['out', 'err']);
     return fillTemporaryHome(temporaryHome, 'home_with_bash_profile')
-    .then(function() { return fs.chmodAsync(profile, '0400'); })
+    .then(function() { return fs.chmod(profile, '0400'); })
     .then(function() { return updateProfile(); })
     .then(function() { throw new Error('Expected error thrown'); }, function(e) {
       expect(std.out).to.eql('');
@@ -274,7 +271,7 @@ describe('avn setup', function() {
   it('fails ~/.avn install if home directory is not writable', function() {
     var spawn = stubSpawn();
     var std = capture(['out', 'err']);
-    return fs.chmodAsync(temporaryHome, 600)
+    return fs.chmod(temporaryHome, 600)
     .then(function() { npm.prefix = '/path/to/nowhere'; })
     .then(function() { return install(); })
     .then(function() { throw new Error('Expected error thrown'); }, function(e) {
@@ -357,7 +354,7 @@ describe('avn setup', function() {
     var spawn = stubSpawn();
     var std = capture(['out', 'err']);
     return fillTemporaryHome(temporaryHome, 'home_with_bash_profile').then(setupNPM)
-    .then(function() { return fs.chmodAsync(profile, '0400'); })
+    .then(function() { return fs.chmod(profile, '0400'); })
     .then(function() { npm.prefix = '/path/to/nowhere'; })
     .then(function() { return setup(); })
     .finally(function() {

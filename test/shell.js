@@ -1,13 +1,12 @@
 'use strict';
 
+require('./helpers');
+
 var Promise = require('bluebird');
 var path = require('path');
 var util = require('util');
 var fs = require('fs');
 var spawn = require('child_process').spawn;
-
-var chai = require('chai');
-chai.use(require('sinon-chai'));
 
 var runScript = function(script) {
   return new Promise(function(resolve, reject) {

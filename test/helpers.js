@@ -1,5 +1,25 @@
 'use strict';
 
+var _ = require('lodash');
+var sinon = require('sinon');
+var chai = require('chai');
+var chaiAsPromised = require('chai-as-promised');
+
+chaiAsPromised.transferPromiseness = function (assertion, promise) {
+  assertion.then = promise.then.bind(promise);
+  assertion.meanwhile = function(value) {
+    var result = promise.return(value);
+    return _.extend(result, { should: result.should.eventually });
+  };
+};
+
+chai.use(require('sinon-chai'));
+chai.use(require('chai-as-promised'));
+
+global.expect = chai.expect;
+global.should = chai.should();
+global.sinon = sinon;
+
 exports.capture = function() {
   var args = Array.prototype.slice.call(arguments);
   var restores = [];

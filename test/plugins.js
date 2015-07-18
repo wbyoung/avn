@@ -1,12 +1,11 @@
 'use strict';
 
+require('./helpers');
+
+var _ = require('lodash');
+var Promise = require('bluebird');
 var path = require('path');
 var plugins = require('../lib/plugins');
-var _ = require('lodash');
-
-var chai = require('chai');
-var expect = chai.expect;
-chai.use(require('sinon-chai'));
 
 describe('avn plugins', function() {
   var home = process.env.HOME;
@@ -24,32 +23,38 @@ describe('avn plugins', function() {
   });
 
   it('lists all plugins', function() {
-    expect(_.map(plugins._all(), 'name')).to.contain('avn-plugin');
+    return Promise.map(plugins._all(), _.property('name'))
+    .should.eventually.contain('avn-plugin');
   });
 
   it('works with no config file', function() {
     process.env.HOME = path.resolve(path.join(__dirname, 'fixtures/home_empty'));
-    expect(_.map(plugins._all(), 'name')).to.be.defined;
+    return Promise.map(plugins._all(), _.property('name'))
+    .should.not.eventually.be.defined;
   });
 
   it('ignores missing plugins', function() {
     process.env.HOME = path.resolve(path.join(__dirname, 'fixtures/home_missing'));
-    expect(_.map(plugins._all(), 'name')).not.to.contain('avn-missing');
+    return Promise.map(plugins._all(), _.property('name'))
+    .should.not.eventually.contain('avn-missing');
   });
 
   it('throws for plugins with syntax errors', function() {
     process.env.HOME = path.resolve(path.join(__dirname, 'fixtures/home_error'));
-    expect(plugins._all).to.throw(/unexpected_identifier is not defined/i);
+    return plugins._all().should.eventually.be
+    .rejectedWith(/unexpected_identifier is not defined/i);
   });
 
   it('throws for plugins with load errors', function() {
     process.env.HOME = path.resolve(path.join(__dirname, 'fixtures/home_require_error'));
-    expect(plugins._all).to.throw(/cannot find module '([^']*)'/i);
+    return plugins._all().should.eventually.be
+    .rejectedWith(/cannot find module '([^']*)'/i);
   });
 
   it('throws for plugins with load errors (after msg change)', function() {
     process.env.HOME = path.resolve(path.join(__dirname, 'fixtures/home_require_error_custom'));
-    expect(plugins._all).to.throw(/cannot find a module/i);
+    return plugins._all().should.eventually.be
+    .rejectedWith(/cannot find a module/i);
   });
 
   it('caches results', function() {
