@@ -5,7 +5,8 @@
 export PATH="$HOME/.avn/bin:$PATH"
 
 # plugins may add to this, it's an array of version file names
-export -a __avn_files=(".node-version")
+__avn_files=(".node-version")
+export -a __avn_files
 
 # the full path to the active version file, /path/to/.node-version
 export __avn_active_file
