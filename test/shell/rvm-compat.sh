@@ -11,11 +11,11 @@ export HOME="${__testdir}/fixtures"
 cd "${__testdir}/fixtures/home"
 
 function _avn() {
-  echo avn called >> ${__tmp}
+  echo "avn called" >> ${__tmp}
 }
 
 __rvm_cd_functions_set() {
-  echo "rvm after $@" >> ${__tmp}
+  echo "rvm after" >> ${__tmp}
 }
 
 source "${__shelldir}/helpers.sh"
@@ -24,6 +24,6 @@ source "${__testdir}/../bin/avn.sh"
 # test that other hooks were called before avn
 cd "${__testdir}/fixtures/v0.10"
 __written=`echo $(cat ${__tmp})`
-assertEqual "avn called rvm after ${__testdir}/fixtures/v0.10" "${__written}" || exit 1
+assertEqual "avn called rvm after" "${__written}" || exit 1
 
 rm ${__tmp}

@@ -2,11 +2,19 @@
 # Functionality specific to avn
 #
 
+if [[ -n "${BASH_VERSION:-}" ]]; then
+  shopt -s nullglob
+elif [[ -n "${ZSH_VERSION:-}" ]]; then
+  setopt null_glob
+else
+  printf "%b" "avn does not yet support this shell\n"
+fi
+
 export PATH="$HOME/.avn/bin:$PATH"
 
 # plugins may add to this, it's an array of version file names
-__avn_files=(".node-version")
 export -a __avn_files
+__avn_files=(".node-version")
 
 # the full path to the active version file, /path/to/.node-version
 export __avn_active_file
@@ -41,7 +49,7 @@ function __avn_chpwd() {
   local name=${file##*/}
 
   [[ -n "$file" ]] && [[ "$file" != "$__avn_active_file" ]] &&
-    __avn_eval chpwd "$dir" "$name"
+    __avn_eval chpwd "$dir" "$name" || true
 
   __avn_active_file=$file
 
