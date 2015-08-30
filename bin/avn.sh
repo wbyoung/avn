@@ -3,7 +3,7 @@
 #
 
 if [[ -n "${BASH_VERSION:-}" ]]; then
-  shopt -s nullglob
+  true
 elif [[ -n "${ZSH_VERSION:-}" ]]; then
   setopt null_glob
 else
