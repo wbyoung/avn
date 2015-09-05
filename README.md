@@ -7,7 +7,7 @@ Automatic Version Switching for Node.js
 ## Install
 
 ``` bash
-npm install -g avn avn-nvm avn-n
+npm install -g avn avn-nvm avn-n avn-nodebrew
 avn setup
 ```
 
@@ -18,8 +18,8 @@ switch to that version of node.
 
 ## Plugins
 
-`avn` supports both [`nvm`][nvm] and [`n`][n] through [`avn-nvm`][avn-nvm] and
-[`avn-n`][avn-n].
+`avn` supports [`nvm`][nvm], [`n`][n] and [`nodebrew`][nodebrew] through
+[`avn-nvm`][avn-nvm], [`avn-n`][avn-n] and [`avn-nodebrew`][avn-nodebrew].
 
 We don't recommend using both tools to manage your versions of node, but feel
 free to install both plugins. They won't conflict with each other.
@@ -79,6 +79,8 @@ This project is distributed under the MIT license.
 [issues]: https://github.com/wbyoung/avn/issues
 [nvm]: https://github.com/creationix/nvm
 [n]: https://github.com/visionmedia/n
+[nodebrew]: https://github.com/hokaccha/nodebrew
 [avn-nvm]: https://github.com/wbyoung/avn-nvm
 [avn-n]: https://github.com/wbyoung/avn-n
+[avn-nodebrew]: https://github.com/kuy/avn-nodebrew
 [io.js]: https://iojs.org/
