@@ -66,7 +66,7 @@ your current node version.
 Simply reinstall via npm & re-run the setup:
 
 ```bash
-npm install -g avn
+npm install -g avn avn-nvm avn-n
 avn setup
 ```
 
