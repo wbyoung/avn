@@ -52,7 +52,7 @@ If you're having a problem, please `cd` to the directory where your
 __avn_debug
 ```
 
-Create an [issue][issues] and include the output.
+The [contributing page][contributing] for details about where to report your issue based on the version manager you use.
 
 Also note that the `avn setup` command will only work with the version of node
 with which you installed it. If you install and then switch your node version,
@@ -79,7 +79,7 @@ This project is distributed under the MIT license.
 [david-dev-image]: http://img.shields.io/david/dev/wbyoung/avn.svg?style=flat
 [david-dev-url]: https://david-dm.org/wbyoung/avn#info=devDependencies
 
-[issues]: https://github.com/wbyoung/avn/issues
+[contributing]: https://github.com/wbyoung/avn/blob/master/CONTRIBUTING.md
 [nvm]: https://github.com/creationix/nvm
 [n]: https://github.com/visionmedia/n
 [nodebrew]: https://github.com/hokaccha/nodebrew

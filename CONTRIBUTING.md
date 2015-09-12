@@ -1,5 +1,3 @@
-# Contributing to avn
-
 ## Reporting Bugs
 
 If you're having a problem, please `cd` to the directory where your
