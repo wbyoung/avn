@@ -18,11 +18,14 @@ switch to that version of node.
 
 ## Plugins
 
-`avn` supports both [`nvm`][nvm] and [`n`][n] through [`avn-nvm`][avn-nvm] and
-[`avn-n`][avn-n].
+`avn` supports the following version managers:
 
-We don't recommend using both tools to manage your versions of node, but feel
-free to install both plugins. They won't conflict with each other.
+ - [`nvm`][nvm] via [`avn-nvm`][avn-nvm]
+ - [`n`][n] via [`avn-n`][avn-n]
+ - [`nodebrew`][nodebrew] via [`avn-nodebrew`][avn-nodebrew]
+
+We don't recommend using all of these tools to manage your versions of node, but feel
+free to install all of them. They won't conflict with each other.
 
 
 ## io.js
@@ -79,6 +82,8 @@ This project is distributed under the MIT license.
 [issues]: https://github.com/wbyoung/avn/issues
 [nvm]: https://github.com/creationix/nvm
 [n]: https://github.com/visionmedia/n
+[nodebrew]: https://github.com/hokaccha/nodebrew
 [avn-nvm]: https://github.com/wbyoung/avn-nvm
 [avn-n]: https://github.com/wbyoung/avn-n
+[avn-nodebrew]: https://github.com/kuy/avn-nodebrew
 [io.js]: https://iojs.org/
