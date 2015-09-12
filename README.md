@@ -52,7 +52,7 @@ If you're having a problem, please `cd` to the directory where your
 __avn_debug
 ```
 
-The [contributing page][contributing] for details about where to report your issue based on the version manager you use.
+The [contributing page][contributing] has details about where to report your issue based on the version manager you use.
 
 Also note that the `avn setup` command will only work with the version of node
 with which you installed it. If you install and then switch your node version,
