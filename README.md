@@ -61,6 +61,15 @@ run the setup command again, simply `npm install -g avn` to get a new copy for
 your current node version.
 
 
+## Updating
+
+Simply reinstall via npm & re-run the setup:
+
+```bash
+npm install -g avn
+avn setup
+```
+
 ## License
 
 This project is distributed under the MIT license.
