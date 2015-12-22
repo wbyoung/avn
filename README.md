@@ -13,7 +13,9 @@ avn setup
 
 Now when you `cd` into a directory with a `.node-version` file, `avn` will
 automatically detect the change and use your installed version manager to
-switch to that version of node.
+switch to that version of node. What goes in your `.node-version` file? A
+[semver][semver] version number corresponding to the version of Node.js that
+your project uses.
 
 
 ## Plugins
@@ -96,3 +98,4 @@ This project is distributed under the MIT license.
 [avn-n]: https://github.com/wbyoung/avn-n
 [avn-nodebrew]: https://github.com/kuy/avn-nodebrew
 [io.js]: https://iojs.org/
+[semver]: http://semver.org/
