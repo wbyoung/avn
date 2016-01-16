@@ -44,7 +44,7 @@ function __avn_eval() {
 
 # avn chpwd hook
 function __avn_chpwd() {
-  local file=$(__avn_find_file)
+  local file="$(__avn_find_file)"
   local dir=${file%/*}
   local name=${file##*/}
 
@@ -58,7 +58,7 @@ function __avn_chpwd() {
 
 # debug that includes file lookup
 function __avn_debug() {
-  local file=$(__avn_find_file)
+  local file="$(__avn_find_file)"
   local dir=${file%/*}
   local name=${file##*/}
 
