@@ -32,7 +32,7 @@
   "author": "Whitney Young",
   "license": "MIT",
   "dependencies": {
-    "bluebird": "^2.9.34",
+    "bluebird": "^3.1.5",
     "chalk": "^1.0.0",
     "commander": "^2.2.0",
     "lodash": "^4.1.0",
