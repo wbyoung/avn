@@ -23,6 +23,10 @@
   "requirePaddingNewLinesBeforeExport": true,
   "requireSemicolons": true,
   "requireSpaceAfterLineComment": true,
+  "requireSpacesInAnonymousFunctionExpression": {
+      "beforeOpeningCurlyBrace": true,
+      "allExcept": ["shorthand"]
+  },
   "requireSpacesInsideObjectBrackets": "all",
   "requireTrailingComma": {
     "ignoreSingleLine": true
