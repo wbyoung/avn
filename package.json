@@ -32,6 +32,7 @@
   "author": "Whitney Young",
   "license": "MIT",
   "dependencies": {
+    "any-promise": "^1.1.0",
     "bluebird": "^3.1.5",
     "chalk": "^1.0.0",
     "commander": "^2.2.0",
