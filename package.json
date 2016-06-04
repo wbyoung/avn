@@ -38,7 +38,7 @@
     "commander": "^2.2.0",
     "lodash": "^4.1.0",
     "mz": "^2.0.0",
-    "npm": "^3.6.0"
+    "npm": "^3.9.6"
   },
   "devDependencies": {
     "chai": "^3.0.0",
@@ -46,7 +46,7 @@
     "concat-stream": "^1.4.6",
     "coveralls": "^2.10.0",
     "istanbul": "^0.4.2",
-    "jscs": "^2.1.1",
+    "jscs": "^3.0.4",
     "jshint": "^2.8.0",
     "mocha": "^2.0.1",
     "sinon": "^1.10.2",
