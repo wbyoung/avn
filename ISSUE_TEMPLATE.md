@@ -7,7 +7,7 @@ Please describe your issue clearly and also include all details below.
 - _nvm_ `nvm --version`
 - _n_ `n --version`
 - _zsh_ `zsh --version`
-- _bash_ `zsh --version`
+- _bash_ `bash --version`
 
 The output of `__avn_debug` in the directory with a `.node-version` file is:
 
