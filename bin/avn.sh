@@ -84,8 +84,10 @@ function __avn_find_file() {
   echo $found
 }
 
-__avn_chpwd # run chpwd once since the shell was just loaded
-
+# Only run chpwd when the shell loads if there is a .node-version file in the current directory
+if [ -f .node-version ]; then
+  __avn_chpwd # run chpwd once since the shell was just loaded
+fi
 
 ##
 # Hooks that will happen after the working directory is changed
