@@ -371,7 +371,7 @@ describe('avn setup', function() {
         'avn: configuration complete (~/.avnrc)',
         'avn: installation complete',
       ]);
-      expect(std.err).to.match(/^error: EACCES.*, open '[\/\w-]*\/.bash_profile'\n$/);
+      expect(std.err).to.match(/^error: EACCES.*, open '[\/\w-\d\.]*\/.bash_profile'\n$/);
     });
   });
 });
