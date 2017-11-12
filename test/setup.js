@@ -41,7 +41,7 @@ var fillTemporaryHome = function(temporaryHome, source) {
 
 var setupNPM = function() {
   var prefix = path.resolve(path.join(__dirname, '../test/fixtures/node_install'));
-  return npm.loadAsync({ global: true }).then(function() {
+  return npm.loadAsync({ global: true, progress: false }).then(function() {
     npm.prefix = prefix;
   });
 };
