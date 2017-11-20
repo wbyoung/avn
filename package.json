@@ -11,8 +11,8 @@
     "avn": "./bin-public/avn"
   },
   "scripts": {
-    "test": "jshint . && jscs . && istanbul cover node_modules/.bin/_mocha --report html --",
-    "test-travis": "jshint . && jscs . && istanbul cover node_modules/.bin/_mocha --report lcovonly --"
+    "test": "eslint lib && istanbul cover node_modules/.bin/_mocha --report html --",
+    "test-travis": "eslint lib && istanbul cover node_modules/.bin/_mocha --report lcovonly --"
   },
   "repository": {
     "type": "git",
