@@ -99,3 +99,8 @@ This project is distributed under the MIT license.
 [avn-nodebrew]: https://github.com/kuy/avn-nodebrew
 [io.js]: https://iojs.org/
 [semver]: http://semver.org/
+
+## Uninstall 
+```bash
+npm rm -g avn; rm -r ~/.avn
+```
