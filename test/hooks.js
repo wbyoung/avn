@@ -80,6 +80,17 @@ describe('avn', function() {
         });
       });
 
+      it('reads only the first line of version file', function() {
+        var std = capture();
+        setupExample('multiline-version');
+        return avn.hooks.chpwd(cwd, '.node-version').finally(std.restore).then(function() {
+          expect(plugin.match).to.have.been.calledWith('0.11.13');
+          expect(std.err).to.be.empty;
+          expect(std.out).to.eql('avn activated 0.11.13 (test v0.11.13)\n');
+          expect(std.cmd).to.eql('node-version-tool activate 0.11.13\n');
+        });
+      });
+
       it('fails if plugin returns undefined', function() {
         var std = capture();
         plugin = { name: 'test', match: function() {} };
