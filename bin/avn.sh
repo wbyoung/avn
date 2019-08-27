@@ -47,9 +47,18 @@ function __avn_chpwd() {
   local file=$(__avn_find_file)
   local dir=${file%/*}
   local name=${file##*/}
+  local VERSION_REGEX="[0-9]+\.[0-9]+\.[0-9]+"
 
-  [[ -n "$file" ]] && [[ "$file" != "$__avn_active_file" ]] &&
+  if [[ -n "$file" ]] && [[ "$file" != "$__avn_active_file" ]]; then
+    [[ $(node -v) =~ $VERSION_REGEX ]] && currentNodeVersion=${BASH_REMATCH}
+    [[ $(head -n 1 $file) =~ $VERSION_REGEX ]] && targetNodeVersion=${BASH_REMATCH}
+
+    # Abort if the current and target node versions are the same
+    # https://github.com/wbyoung/avn/issues/78
+    [[ $currentNodeVersion == $targetNodeVersion ]] && return 0
+
     __avn_eval chpwd "$dir" "$name" || true
+  fi
 
   __avn_active_file=$file
 
