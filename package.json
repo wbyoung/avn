@@ -11,8 +11,8 @@
     "avn": "./bin-public/avn"
   },
   "scripts": {
-    "test": "jshint . && jscs . && istanbul cover node_modules/.bin/_mocha --report html --",
-    "test-travis": "jshint . && jscs . && istanbul cover node_modules/.bin/_mocha --report lcovonly --"
+    "test": "eslint lib && istanbul cover node_modules/.bin/_mocha --report html --",
+    "test-travis": "eslint lib && istanbul cover node_modules/.bin/_mocha --report lcovonly --"
   },
   "repository": {
     "type": "git",
@@ -45,9 +45,10 @@
     "chai-as-promised": "^5.1.0",
     "concat-stream": "^1.4.6",
     "coveralls": "^2.10.0",
+    "eslint": "4.11.0",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-plugin-import": "2.8.0",
     "istanbul": "^0.4.2",
-    "jscs": "^3.0.4",
-    "jshint": "^2.8.0",
     "mocha": "^2.0.1",
     "sinon": "^1.10.2",
     "sinon-chai": "^2.8.0",

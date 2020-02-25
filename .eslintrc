@@ -1,0 +1,70 @@
+{
+  "env": {
+    "node": true
+  },
+
+  "extends": [
+    "airbnb-base",
+    "./.eslintrc-es6"
+  ],
+
+  "parserOptions": {
+    "sourceType": "script"
+  },
+
+  "rules": {
+    "curly": ["error", "all"],
+    "no-undefined": "error",
+    "strict": ["error", "global"],
+    "comma-dangle": ["error", "always-multiline"],
+    "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+    "no-empty": "off",
+    "func-style": ["error", "expression"],
+    "keyword-spacing": ["error", {
+      "overrides": {
+        "function": {
+          "after": false
+        }
+      }
+    }],
+    "no-multiple-empty-lines": "off",
+    "max-len": ["error", 80],
+    "max-lines": ["error", 1000],
+    "padding-line-between-statements": ["error", {
+      "blankLine": "always",
+      "prev": "*",
+      "next": "export"
+    }, {
+      "blankLine": "always",
+      "prev": "directive",
+      "next": "*"
+    }],
+    "consistent-this": ["error", "self"],
+    "space-before-function-paren": ["error", "never"],
+    "valid-jsdoc": "error",
+    "func-names": "off",
+    "consistent-return": "off",
+    "no-console": "off",
+    "indent": ["error", 2, {
+      "MemberExpression": 0,
+      "CallExpression": {
+        "arguments": "off"
+      },
+      "FunctionExpression": {
+        "parameters": "off"
+      }
+    }],
+    "function-paren-newline": "off",
+    "one-var": "off",
+    "padded-blocks": "off",
+    "global-require": "off",
+    "no-underscore-dangle": "off",
+    "vars-on-top": "off",
+    "no-param-reassign": "off",
+    "one-var-declaration-per-line": "off",
+    "no-return-assign": "off",
+    "no-mixed-operators": "off",
+    "brace-style": "off",
+    "wrap-iife": ["error", "inside"]
+  }
+}
