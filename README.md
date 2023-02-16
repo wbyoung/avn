@@ -102,5 +102,5 @@ This project is distributed under the MIT license.
 
 ## Uninstall 
 ```bash
-npm rm -g avn; rm -r ~/.avn
+npm rm -g avn; rm -rf ~/.avn
 ```
